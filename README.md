@@ -1,2 +1,2 @@
 # recent
-record recent times of some individual activity
+record recent times of some individual activities
