@@ -33,7 +33,7 @@ public class AddPoint extends Activity {
 	
 	
 	
-	private List<Fruit> fruitList = new ArrayList<Fruit>();
+	private List<ColorBlock> colorList = new ArrayList<ColorBlock>();
 	
 	String colorCode,description;
 	
@@ -55,9 +55,9 @@ public class AddPoint extends Activity {
 		setContentView(R.layout.add_point);
 		
 				
-		initFruits();
+		initColors();
 						
-		final FruitAdapter adapter = new FruitAdapter(AddPoint.this,R.layout.color, fruitList);
+		final ColorAdapter adapter = new ColorAdapter(AddPoint.this,R.layout.color, colorList);
 		
 		Spinner spinner = (Spinner) findViewById(R.id.spinner1);
 		
@@ -66,7 +66,7 @@ public class AddPoint extends Activity {
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 		     public void onItemSelected(AdapterView<?> parent, View view,int position, long id) {
-				Fruit selectColor = adapter.getItem(position);
+				ColorBlock selectColor = adapter.getItem(position);
 				colorCode = selectColor.getName();
 				
 		     }
@@ -105,16 +105,17 @@ public class AddPoint extends Activity {
 				colorBase.insert("c"+ colorId, null, values); //  插入第一条数据
 				
 				values.clear();
-				Log.d("recent","record"+System.currentTimeMillis()/1000+description);		
+				Log.d("recent","record "+ colorId +":"+System.currentTimeMillis()/1000+description);		
 				
-														
+				detail.setText("");//清空备注栏
+				detail.clearFocus();//备注栏失焦
 				
 				
 				//Date moment = new Date();
 				
 				//Log.d("recent",System.currentTimeMillis()+" + "+ sdf.format(moment));	
-				//Toast.makeText(AddPoint.this, colorId +"+"+description ,
-				//Toast.LENGTH_SHORT).show();
+				Toast.makeText(
+						AddPoint.this, "saved" ,Toast.LENGTH_SHORT).show();//保存成功反馈
 						
 			}
 		});
@@ -122,13 +123,13 @@ public class AddPoint extends Activity {
 		
 	}	
 	
-	private void initFruits() {
-		Fruit apple = new Fruit(colorRange.get(0));
-		fruitList.add(apple);
-		Fruit banana = new Fruit(colorRange.get(1));
-		fruitList.add(banana);
-		Fruit orange = new Fruit(colorRange.get(2));
-		fruitList.add(orange);
+	private void initColors() {
+		ColorBlock color1 = new ColorBlock(colorRange.get(0));
+		colorList.add(color1);
+		ColorBlock color2 = new ColorBlock(colorRange.get(1));
+		colorList.add(color2);
+		ColorBlock color3 = new ColorBlock(colorRange.get(2));
+		colorList.add(color3);
 		//Log.d("recent","init");	
 		}
 

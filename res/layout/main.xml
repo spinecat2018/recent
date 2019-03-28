@@ -2,54 +2,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" 
-        android:layout_weight="1">
-    
-	    <LinearLayout
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:orientation="horizontal"
-	        android:background="#aaaa">
-	    
-		    <TextView
-				android:id="@+id/text_view1"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="|"
-				android:layout_weight="1"
-				android:gravity="right" 
-				android:background="#f9f0"/> 
-				
-			<TextView
-				android:id="@+id/text_view11"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="|" 
-				android:layout_weight="1"
-				android:gravity="right"
-				android:background="#f9f0"/>  
-				  
-			<TextView
-				android:id="@+id/text_view111"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"				
-				android:layout_weight="1"/> 
-	        	        
-	    </LinearLayout>    
-                
-    </LinearLayout>
-
-    
     <Button
-        android:id="@+id/button1"
-        android:layout_width="match_parent"
+        android:id="@+id/new_record"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"/>
+        android:text="记录" />
 
+    <LinearLayout 
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal">
+    
+    <LinearLayout 
+        android:layout_width="0sp"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:layout_weight="1.0">
+        
+        <TextView
+        android:id="@+id/textView1"
+        android:layout_width="20sp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#ff5632"
+        android:text="11" />
+     </LinearLayout>
+     
+     <LinearLayout 
+        android:layout_width="0sp"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:layout_weight="1.0">   
+        <TextView
+        android:id="@+id/textView11"
+        android:layout_width="20sp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="#f69432"
+        android:text="22" />
+        
+    </LinearLayout>
+    </LinearLayout>
     
 </LinearLayout>

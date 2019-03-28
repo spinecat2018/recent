@@ -1,10 +1,10 @@
 package com.nightmare.recent;
 
-public class Fruit {
+public class ColorBlock {
 
 	private String colorName;
 	
-	public Fruit(String colorName) {
+	public ColorBlock(String colorName) {
 		this.colorName = colorName;
 		
 	}
