@@ -100,12 +100,14 @@ public class AddPoint extends Activity {
 				ContentValues values = new ContentValues();
 				//  开始组装第一条数据
 				values.put("moment", System.currentTimeMillis()/1000+"");
+				values.put("colorId", colorId);
 				values.put("description", description);
 				
-				colorBase.insert("c"+ colorId, null, values); //  插入第一条数据
+				colorBase.insert("colors", null, values); //  插入第一条数据
 				
 				values.clear();
-				Log.d("recent","record "+ colorId +":"+System.currentTimeMillis()/1000+description);		
+				Log.d("recent",
+					"record "+ colorId +":"+System.currentTimeMillis()/1000+":"+description);		
 				
 				detail.setText("");//清空备注栏
 				detail.clearFocus();//备注栏失焦

@@ -25,12 +25,9 @@ public class ColorBase extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase colorBase) {
 		Log.d("recent","create");
 		
-		colorTableCodeGen("c0");
+		colorTableCodeGen("colors");
 		colorBase.execSQL(colorTableCode);
-		colorTableCodeGen("c1");
-		colorBase.execSQL(colorTableCode);
-		colorTableCodeGen("c2");
-		colorBase.execSQL(colorTableCode);
+		
 		
 		Toast.makeText(mContext, "Create succeeded", Toast.LENGTH_SHORT).show();
 
@@ -47,7 +44,8 @@ public class ColorBase extends SQLiteOpenHelper {
 		
 		colorTableCode = "create table "+ tableName + " ("
 				+ "id integer primary key autoincrement, "
-				+ "moment text, "
+				+ "moment integer, "
+				+ "colorId integer, "
 				+ "description text)";
 	}
 	
