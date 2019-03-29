@@ -1,0 +1,5 @@
+D:/androidWorkplace/recent
+
+/data/data/com.nightmare.recent/databases/
+
+select * from ?

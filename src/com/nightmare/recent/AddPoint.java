@@ -26,10 +26,10 @@ import android.widget.Toast;
 
 public class AddPoint extends Activity {
 
-	List<String> colorRange = Arrays.asList(
-			"#925649",
-			"#aa24a8",
-			"#f62541");
+	static List<String> colorRange = Arrays.asList(
+			"#FF0000",
+			"#FFFF00",
+			"#0000FF");
 	
 	
 	

@@ -11,39 +11,78 @@
         android:text="记录" />
 
     <LinearLayout 
-        android:layout_width="wrap_content"
+        android:id="@+id/day_area"
+        android:layout_width="match_parent"
     	android:layout_height="wrap_content"
-    	android:orientation="horizontal">
+    	android:orientation="horizontal"
+    	>
     
-    <LinearLayout 
-        android:layout_width="0sp"
-    	android:layout_height="wrap_content"
-    	android:orientation="horizontal"
-    	android:layout_weight="1.0">
-        
-        <TextView
-        android:id="@+id/textView1"
-        android:layout_width="20sp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="#ff5632"
-        android:text="11" />
-     </LinearLayout>
-     
-     <LinearLayout 
-        android:layout_width="0sp"
-    	android:layout_height="wrap_content"
-    	android:orientation="horizontal"
-    	android:layout_weight="1.0">   
-        <TextView
-        android:id="@+id/textView11"
-        android:layout_width="20sp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="#f69432"
-        android:text="22" />
-        
-    </LinearLayout>
+	    <LinearLayout 
+	        
+	        android:id="@+id/am_area"
+	        android:layout_width="0sp"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:layout_weight="1.0"> 
+	        
+	        <LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	    	android:layout_weight="1.0">   
+		        <TextView
+		        android:id="@+id/point_moment"    
+		        android:layout_width="10sp"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:background="#000000"/>
+	    	</LinearLayout>
+	    	
+	        <LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	    	android:layout_weight="1.0">   
+		        <TextView
+		        android:id="@+id/point_moment0"    
+		        android:layout_width="10sp"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:background="#000000"/>
+	    	</LinearLayout>
+	    	
+	        <LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	    	android:layout_weight="1.0">   
+		        <TextView
+		        android:id="@+id/point_moment1"    
+		        android:layout_width="10sp"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:background="#000000"/>
+	    	</LinearLayout>
+	    	
+	 	
+	        
+	     </LinearLayout>
+	     
+	     <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="|" />
+	    
+	     <LinearLayout 
+	        android:id="@+id/pm_area"
+	        android:layout_width="0sp"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:layout_weight="1.0">   
+	    	
+
+	        
+	    </LinearLayout>
     </LinearLayout>
     
 </LinearLayout>
