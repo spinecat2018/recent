@@ -17,7 +17,7 @@ public class SomePoints extends LinearLayout {
 	//int num = 1;
 	public SomePoints(Context context, AttributeSet attrs, ArrayList<Point> list) {
 		super(context, attrs);
-		Log.d("recent","somepoints"+ list.size());
+		Log.d("recent","list-size:"+ list.size());
 		
 		for(int i=0;i<list.size();i++){
 			LayoutInflater.from(context).inflate(R.layout.one_point, this);

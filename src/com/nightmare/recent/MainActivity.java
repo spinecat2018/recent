@@ -20,7 +20,7 @@ public class MainActivity extends Activity {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.main);
 	
-	long nowCode = System.currentTimeMillis()/1000;
+	long nowCode = System.currentTimeMillis()/1000-60*60*24;
 	
 	long todayHead = findRange(nowCode).start;
 	long todayEnd = findRange(nowCode).end;
@@ -47,7 +47,9 @@ public class MainActivity extends Activity {
 			"SELECT * FROM colors WHERE moment >= ? AND moment <= ?", 
 			new String[]{todayHead+"",todayEnd+""});
 
-
+	
+	Log.d("recent", "get:" + cursor.getCount());
+	
 	if (cursor.moveToFirst()) {
 		
 		do {

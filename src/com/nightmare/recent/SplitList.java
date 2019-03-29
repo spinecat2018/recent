@@ -16,6 +16,10 @@ public class SplitList {
 
 		TimeRange tr = new TimeRange();
 		
+		if(!list.isEmpty()){
+			
+		
+		
 		long timeCode = list.get(0).moment; 
 		
 		tr = com.nightmare.recent.MainActivity.findRange(timeCode);
@@ -36,6 +40,7 @@ public class SplitList {
 				Log.d("recent","add pmlist");
 				pmList.add(list.get(i));
 			}
+		}
 		}
 		Log.d("recent","out from split");
 

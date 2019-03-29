@@ -25,46 +25,7 @@
 	    	android:orientation="horizontal"
 	    	android:layout_weight="1.0"> 
 	        
-	        <LinearLayout 
-	        android:layout_width="match_parent"
-	    	android:layout_height="wrap_content"
-	    	android:orientation="vertical"
-	    	android:layout_weight="1.0">   
-		        <TextView
-		        android:id="@+id/point_moment"    
-		        android:layout_width="10sp"
-		        android:layout_height="wrap_content"
-		        android:layout_gravity="center"
-		        android:background="#000000"/>
-	    	</LinearLayout>
 	    	
-	        <LinearLayout 
-	        android:layout_width="match_parent"
-	    	android:layout_height="wrap_content"
-	    	android:orientation="vertical"
-	    	android:layout_weight="1.0">   
-		        <TextView
-		        android:id="@+id/point_moment0"    
-		        android:layout_width="10sp"
-		        android:layout_height="wrap_content"
-		        android:layout_gravity="center"
-		        android:background="#000000"/>
-	    	</LinearLayout>
-	    	
-	        <LinearLayout 
-	        android:layout_width="match_parent"
-	    	android:layout_height="wrap_content"
-	    	android:orientation="vertical"
-	    	android:layout_weight="1.0">   
-		        <TextView
-		        android:id="@+id/point_moment1"    
-		        android:layout_width="10sp"
-		        android:layout_height="wrap_content"
-		        android:layout_gravity="center"
-		        android:background="#000000"/>
-	    	</LinearLayout>
-	    	
-	 	
 	        
 	     </LinearLayout>
 	     
