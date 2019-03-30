@@ -5,105 +5,271 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
 	private ColorBase colorBaseHelper;
+		
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.main);
-	
-	long nowCode = System.currentTimeMillis()/1000-60*60*24;
-	
-	long todayHead = findRange(nowCode).start;
-	long todayEnd = findRange(nowCode).end;
-	
-	//SimpleDateFormat dateformatD = new SimpleDateFormat("yyyy-MM-dd");
-	//String nowString = dateformatD.format(nowCode);
-	//Log.d("recent", "now : " + nowString);
-	Log.d("recent", "now code : " + nowCode);
-	
-	ArrayList<Point> day1 = new ArrayList<Point>();
-	
-	Log.d("recent", "today from:" +todayHead);
-	Log.d("recent", "to:"+ todayEnd);
-	
-	//查找数据库，获取前7天的数据
-	
-	colorBaseHelper = new ColorBase(this, "colorDataBase.db", null, 1);
-	
-	SQLiteDatabase colorBase= colorBaseHelper.getWritableDatabase();
-//  查询Book 表中所有的数据
-	
-	
-	Cursor cursor = colorBase.rawQuery(
-			"SELECT * FROM colors WHERE moment >= ? AND moment <= ?", 
-			new String[]{todayHead+"",todayEnd+""});
-
-	
-	Log.d("recent", "get:" + cursor.getCount());
-	
-	if (cursor.moveToFirst()) {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.main);
+		Log.d("recent", "oncreate");
+/*		
+//获取当天数据，存放在list day1  
+		//获取当前秒数
+		long nowCode = System.currentTimeMillis()/1000;
+		//转化成当天秒范围
+		long todayHead = findRange(nowCode).start;
+		long todayEnd = findRange(nowCode).end;	
+		Log.d("recent", ""+nowCode+"-->"+todayHead+"-"+todayEnd);
+		//新建存放当前天数据的list
+		ArrayList<Point> today = new ArrayList<Point>();
+		//新建数据库helper
+		colorBaseHelper = new ColorBase(this, "colorDataBase.db", null, 1);
+		//创建数据库，或获得已存在的数据库
+		SQLiteDatabase colorBase= colorBaseHelper.getWritableDatabase();
 		
-		do {
-			//  遍历Cursor 对象，取出数据并打印
-			long moment = cursor.getInt(cursor.getColumnIndex("moment"));			
-			int colorId = cursor.getInt(cursor.getColumnIndex("colorId"));
-			String description = cursor.getString(cursor.getColumnIndex("description"));
-			
-			day1.add(new Point(moment,colorId,description));
-			
-			//Log.d("recent", "time-code : " + day1.get(day1.size()-1).moment);
-			Log.d("recent", "color-code : " + day1.get(day1.size()-1).colorId);
-			//Log.d("recent", "description : " + day1.get(day1.size()-1).description);
-			
-		} while (cursor.moveToNext());
+		today = select(colorBase,todayHead,todayEnd);
+		//block1
+		//数据写入主页fix控件
+		LinearLayout fixLine = (LinearLayout) findViewById(R.id.fix_area);//find fix_area
+		
+		fillWithColor(today,fixLine);
+		//block2
+//插入前6天
+		LinearLayout daysArea = (LinearLayout) findViewById(R.id.days_area);//find days_area
+		//计算前一天秒范围
+		TimeRange yesterdayRange = new TimeRange(todayHead,todayEnd).yesterday();
+		//yesterdayRange.start=todayHead;
+		//yesterdayRange.end=todayEnd;
+		for(int i=0;i<6;i++){
+			ArrayList<Point> yesterday = new ArrayList<Point>();
+			//查前一天数据存入yesterday 
+			yesterday = select(colorBase,yesterdayRange.start,yesterdayRange.end);
+			LinearLayout day = new LinearLayout(MainActivity.this);
+			LinearLayout.LayoutParams dayLP = new LinearLayout.LayoutParams(  
+		            ViewGroup.LayoutParams.MATCH_PARENT,  
+		            ViewGroup.LayoutParams.WRAP_CONTENT);  
+			day.setLayoutParams(dayLP);
+			day.setOrientation(LinearLayout.HORIZONTAL);
+			fillWithColor(yesterday, day);
+			daysArea.addView(day);
+			yesterdayRange = yesterdayRange.yesterday();	
+		}
+//定义按钮活动
+		Button button1 = (Button) findViewById(R.id.new_record);
+		button1.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+			//点击进入addpoint活动
+				Intent intent = new Intent(MainActivity.this, AddPoint.class);
+				startActivity(intent);
+			}
+		});
+	*/	
 	}
 	
-	cursor.close();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.d("recent", "onResume");
+//清空fix_area和days_area
+		LinearLayout fixLine = (LinearLayout) findViewById(R.id.fix_area);
+		LinearLayout daysArea = (LinearLayout) findViewById(R.id.days_area);
+		fixLine.removeAllViews();
+		daysArea.removeAllViews();
+//获取当天数据，存放在list day1  
+		//获取当前秒数
+		long nowCode = System.currentTimeMillis()/1000;
+		//转化成当天秒范围
+		long todayHead = findRange(nowCode).start;
+		long todayEnd = findRange(nowCode).end;	
+		Log.d("recent", ""+nowCode+"-->"+todayHead+"-"+todayEnd);
+		//新建存放当前天数据的list
+		ArrayList<Point> today = new ArrayList<Point>();
+		//新建数据库helper
+		colorBaseHelper = new ColorBase(this, "colorDataBase.db", null, 1);
+		//创建数据库，或获得已存在的数据库
+		SQLiteDatabase colorBase= colorBaseHelper.getWritableDatabase();
+		
+		today = select(colorBase,todayHead,todayEnd);
+		//block1
+		//数据写入主页fix控件
+		//find fix_area
+		
+		fillWithColor(today,fixLine);
+		//block2
+//插入前6天
+		//find days_area
+		//计算前一天秒范围
+		TimeRange yesterdayRange = new TimeRange(todayHead,todayEnd).yesterday();
+		//yesterdayRange.start=todayHead;
+		//yesterdayRange.end=todayEnd;
+		for(int i=0;i<6;i++){
+			ArrayList<Point> yesterday = new ArrayList<Point>();
+			//查前一天数据存入yesterday 
+			yesterday = select(colorBase,yesterdayRange.start,yesterdayRange.end);
+			LinearLayout day = new LinearLayout(MainActivity.this);
+			LinearLayout.LayoutParams dayLP = new LinearLayout.LayoutParams(  
+		            ViewGroup.LayoutParams.MATCH_PARENT,  
+		            0,1);  
+			day.setLayoutParams(dayLP);
+			day.setOrientation(LinearLayout.HORIZONTAL);
+			fillWithColor(yesterday, day);
+			daysArea.addView(day);
+			yesterdayRange = yesterdayRange.yesterday();	
+		}
+//定义按钮活动
+		Button button1 = (Button) findViewById(R.id.new_record);
+		button1.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+			//点击进入addpoint活动
+				Intent intent = new Intent(MainActivity.this, AddPoint.class);
+				startActivity(intent);
+			}
+		});
+		
+	}
 	
-	//divide pointlist to am and pm
-	SplitList sl=new SplitList(day1);
-	
-	
-	SomePoints sp0 = new SomePoints(getBaseContext(), null, sl.amList);//新建控件
-	SomePoints sp1 = new SomePoints(getBaseContext(), null, sl.pmList);
-
-	
-	LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams( //格式
-            LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT); 
-	
-	sp0.setLayoutParams(lp);
-	sp1.setLayoutParams(lp);
-	
-	LinearLayout layoutAm = (LinearLayout) findViewById(R.id.am_area);//找到 主页上的父控件
-	LinearLayout layoutPm = (LinearLayout) findViewById(R.id.pm_area);
-	layoutAm.addView(sp0);//插入新的控件
-	layoutPm.addView(sp1);
-	
-	
-	
+	//根据两个10位秒码查找指定数据库，选取结果存入list
+	public ArrayList<Point> select(SQLiteDatabase db,long start,long end){
+		ArrayList<Point> result = new ArrayList<Point> ();
+		long min=start;
+		long max=end;
+		if(start>end){
+			min=end;
+			max=start;
+		}
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM colors WHERE moment >= ? AND moment <= ?", 
+				new String[]{min+"",max+""});
+		Log.d("recent", "get:" + cursor.getCount());
+		//如果选取不为空
+		if (cursor.moveToFirst()) {
+			do {//  遍历Cursor对象，取出数据
+				long moment = cursor.getInt(cursor.getColumnIndex("moment"));			
+				int colorId = cursor.getInt(cursor.getColumnIndex("colorId"));
+				String description = cursor.getString(cursor.getColumnIndex("description"));
+				//把数据写入当日list
+				result.add(new Point(moment,colorId,description));
+				//SimpleDateFormat dateformatMin = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+				//String dateString = dateformatMin.format(((Point)point.getTag()).moment*1000);
+				//new SimpleDateFormat("yyyy-MM-dd hh:mm").format(result.get(result.size()-1).moment*1000);
+				Log.d("recent", 
+						"add " + (new SimpleDateFormat("yyyy-MM-dd hh:mm")).format(result.get(result.size()-1).moment*1000));
+			} while (cursor.moveToNext());
+		}
+		//关闭cursor
+		cursor.close();
+		
+		return result;
+		
 	}
 	
 	
-	public static TimeRange findRange(long timeCode){//get the day's range from timecode(10-bit)
-		Log.d("recent","find");
-
+	//根据list生成颜色块，插入指定布局
+	public void fillWithColor(ArrayList<Point> list, LinearLayout layout){
+		
+		TextView tail = new TextView(this);
+		if(list.size()!=0){//如果list不为空
+			//查找list代表的日期的秒数范围
+			TimeRange tr= findRange(list.get(0).moment);
+			//新建色块，插入main	
+			for(int i=0;i<list.size();i++){
+				//新建textview
+				final TextView point = new TextView(this);
+				//设置边界
+				point.setText("|");
+				point.setGravity(Gravity.RIGHT|Gravity.FILL_VERTICAL);
+				//设置tag		
+				point.setTag(list.get(i));//attach Point as tag
+				//设置颜色
+				String s=com.nightmare.recent.AddPoint.colorRange.get(
+						list.get(i).colorId);
+				Log.d("recent","color code:"+ s);
+				point.setBackgroundColor(Color.parseColor(s));//Color.parseColor("#00FF00")
+				//设置weight
+				int weight;
+				//对于第一个色块
+				if(i==0){
+					weight= (int) (list.get(i).moment-tr.start);
+				}else{//对于后面的色块
+					weight=(int)(list.get(i).moment-list.get(i-1).moment);
+				}
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams( //格式
+			            0, LayoutParams.MATCH_PARENT,weight); 
+				point.setLayoutParams(lp);
+				//add click activity
+				point.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						SimpleDateFormat dateformatMin = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+						String dateString = dateformatMin.format(((Point)point.getTag()).moment*1000);
+						Toast.makeText(MainActivity.this, 
+								dateString+":\n"+((Point)point.getTag()).description,
+								Toast.LENGTH_SHORT).show();
+					}
+				});
+				//插入main
+				layout.addView(point);
+			}
+			//设置结尾textview
+			int tWeight=(int)(tr.end - list.get(list.size()-1).moment);
+			tail.setLayoutParams(new LinearLayout.LayoutParams( //格式
+			            0, LayoutParams.MATCH_PARENT,tWeight));
+		}else{//list为空
+			tail.setLayoutParams(new LinearLayout.LayoutParams( //格式
+					0, LayoutParams.MATCH_PARENT,1));
+		}
+		//设置结尾颜色
+		tail.setBackgroundColor(Color.parseColor("#cccccc"));
+		//设置结尾文字 
+		//tail.setText("-");
+		//设置结尾点击事件
+		tail.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(
+						MainActivity.this, "empty",Toast.LENGTH_SHORT).show();
+			}
+		});
+		//添加结尾
+		layout.addView(tail);
+	}
+	
+	//get the day's range from timecode(10-bit)
+	public static TimeRange findRange(long timeCode){
+		//Log.d("recent","find");
 		TimeRange tr = new TimeRange();
-		
+		//把秒数转化为年月日
 		SimpleDateFormat dateformatD = new SimpleDateFormat("yyyy-MM-dd");
 		String dateString = dateformatD.format(timeCode*1000);
-		
+		//把年月日加工成所在日的秒级描述
 		String time1=dateString+" 00:00:00";
 		String time2=dateString+" 23:59:59";
-		
+		//把时间描述范围转化成秒数
 		SimpleDateFormat dateformatS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			tr.start = dateformatS.parse(time1).getTime()/1000;
@@ -112,12 +278,73 @@ public class MainActivity extends Activity {
 		    e.printStackTrace();
 		}
 		Log.d("recent","out from find--"+ tr.start);
-
 		return tr;
 	}
-	
-	
-	
+			
 }
+
+/* 1 {  //查询当日数据
+Cursor cursor = colorBase.rawQuery(
+		"SELECT * FROM colors WHERE moment >= ? AND moment <= ?", 
+		new String[]{todayHead+"",todayEnd+""});
+Log.d("recent", "get:" + cursor.getCount());
+//如果选取不为空
+if (cursor.moveToFirst()) {
+	do {//  遍历Cursor对象，取出数据
+		long moment = cursor.getInt(cursor.getColumnIndex("moment"));			
+		int colorId = cursor.getInt(cursor.getColumnIndex("colorId"));
+		String description = cursor.getString(cursor.getColumnIndex("description"));
+		//把数据写入当日list
+		today.add(new Point(moment,colorId,description));
+		Log.d("recent", "add " + today.get(today.size()-1).moment);
+	} while (cursor.moveToNext());
+}
+//关闭cursor
+cursor.close();}
+*/
+
+
+/*2for(int i=0;i<today.size();i++){
+//新建textview
+final TextView point = new TextView(this);
+//设置边界
+point.setText("|");
+point.setGravity(Gravity.RIGHT);
+//设置tag		
+point.setTag(today.get(i));//attach Point as tag
+//设置颜色
+String s=com.nightmare.recent.AddPoint.colorRange.get(
+		today.get(i).colorId);
+Log.d("recent","color code:"+ s);
+point.setBackgroundColor(Color.parseColor(s));//Color.parseColor("#00FF00")
+//设置weight
+int weight;
+if(i==0){
+	weight= (int) (today.get(i).moment-todayHead);
+}else{
+	weight=(int)(today.get(i).moment-today.get(i-1).moment);
+}
+LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams( //格式
+        0, LayoutParams.WRAP_CONTENT,weight); 
+point.setLayoutParams(lp);
+//add click activity
+point.setOnClickListener(new OnClickListener() {
+	@Override
+	public void onClick(View v) {
+		Toast.makeText(MainActivity.this, 
+				((Point)point.getTag()).moment+", to start new activity...",
+				Toast.LENGTH_SHORT).show();
+	}
+});
+//插入main
+fixLine.addView(point);
+}
+//插入结尾textview
+TextView tail = new TextView(this);
+int tWeight=(int)(todayEnd - today.get(today.size()-1).moment);
+tail.setLayoutParams(new LinearLayout.LayoutParams( //格式
+        0, LayoutParams.WRAP_CONTENT,tWeight));
+tail.setBackgroundColor(Color.parseColor("#cccccc"));
+fixLine.addView(tail);*/
 
 

@@ -27,9 +27,9 @@ import android.widget.Toast;
 public class AddPoint extends Activity {
 
 	static List<String> colorRange = Arrays.asList(
-			"#FF0000",
-			"#FFFF00",
-			"#0000FF");
+			"#FF4500",
+			"#FFD700",
+			"#87CEFA");
 	
 	
 	
@@ -120,6 +120,14 @@ public class AddPoint extends Activity {
 						AddPoint.this, "saved" ,Toast.LENGTH_SHORT).show();//保存成功反馈
 						
 			}
+		});
+		
+		Button back = (Button) findViewById(R.id.button_back);
+		back.setOnClickListener(new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			AddPoint.this.finish();
+		}
 		});
 		
 		

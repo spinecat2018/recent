@@ -1,5 +1,6 @@
 package com.nightmare.recent;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,9 +37,10 @@ public class SomePoints extends LinearLayout {
 				@Override
 				
 				public void onClick(View v) {
-					
+					SimpleDateFormat dateformatMin = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+					String dateString = dateformatMin.format(((Point)colorPoint.getTag()).moment*1000);
 					Toast.makeText(getContext(), 
-							((Point)colorPoint.getTag()).description+"to start new activity...",
+							dateString+":/r/n"+((Point)colorPoint.getTag()).description,
 							Toast.LENGTH_SHORT).show();
 				}
 				
