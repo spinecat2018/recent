@@ -2,24 +2,53 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:weightSum="20">
+    android:orientation="vertical"
+    android:background="#ffffff">
 
+    
 	<TextView
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"		
-		android:text=" RECENT v1.01  Record your Things by Colors~" 
+		android:layout_height="24sp"		
+		android:text="" 
 		android:textSize="16sp"
-		android:background="#f5f5f5"
+		android:textColor="#eeeeee"
+		android:background="#66CCCC"
 		android:gravity="left"/>
+	
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="40sp"		
+		android:text="今  天" 
+		android:textSize="20sp"
+		android:gravity="center|bottom"
+		android:background="#ffffff"/>
+	
+	
+	
     <LinearLayout 
         android:id="@+id/fix_area"
         android:layout_width="match_parent"
-    	android:layout_height="0sp"
-    	android:layout_weight="1"
-    	android:orientation="horizontal">
+    	android:layout_height="20sp"
+     	android:orientation="horizontal">
 	     
     </LinearLayout>
+    
+    <TextView
+		android:layout_width="match_parent"
+		android:layout_height="30sp"		
+		android:text="以往" 
+		android:textSize="16sp"
+		android:textColor="#888888"
+		android:gravity="center|bottom"
+		android:background="#ffffff"/>
+    
+    <TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"		
+		android:text="" 
+		android:textColor="#888888"
+		android:gravity="center"
+		android:background="#ffffff"/>
     
     <LinearLayout 
         android:id="@+id/days_area"
@@ -30,18 +59,29 @@
 	     
     </LinearLayout>
     
-    <Button
-        android:id="@+id/new_record"
-        android:layout_width="100sp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="记录" />
     <TextView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"		
-		android:text="powered by spinecat" 
-		android:textSize="10sp"
-		android:background="#d3d3d3"
+		android:text="" 
+		android:textColor="#888888"
+		android:gravity="center"
+		android:background="#ffffff"/>
+    
+    <Button
+        android:id="@+id/new_record"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Record your Things by Colors~"
+        android:textColor="#444444"
+        android:background="#CCFF99" />
+    <TextView
+		android:layout_width="match_parent"
+		android:layout_height="16sp"		
+		android:text="RECENT v1.01  powered by spinecat" 
+		android:textSize="12sp"
+		android:textColor="#888888"
+		android:background="#ffffff"
 		android:gravity="center"/>
     
 </LinearLayout>

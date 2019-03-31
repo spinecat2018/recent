@@ -107,7 +107,7 @@ public class MainActivity extends Activity {
 		long todayHead,todayEnd;
 		todayHead = findRange(nowCode).start;
 		todayEnd = findRange(nowCode).end;	
-		Log.d("recent", ""+nowCode+"-->"+todayHead+"-"+todayEnd);
+		Log.d("recent", ""+ nowCode +"-->"+todayHead+"-"+todayEnd);
 		//新建存放当前天数据的list
 		ArrayList<Point> today = new ArrayList<Point>();
 		//新建数据库helper
@@ -129,7 +129,7 @@ public class MainActivity extends Activity {
 		TimeRange yesterdayRange = todayRange.yesterday(todayRange);
 		//yesterdayRange.start=todayHead;
 		//yesterdayRange.end=todayEnd;
-		for(int i=0;i<6;i++){
+		for(int i=0;i<28;i++){
 			ArrayList<Point> yesterday = new ArrayList<Point>();
 			//查前一天数据存入yesterday 
 			yesterday = select(colorBase,yesterdayRange.start,yesterdayRange.end);
@@ -234,7 +234,7 @@ public class MainActivity extends Activity {
 						SimpleDateFormat dateformatMin = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 						String dateString = dateformatMin.format(((Point)point.getTag()).moment*1000);
 						Toast.makeText(MainActivity.this, 
-								dateString+":\n"+((Point)point.getTag()).description,
+								"\n"+ dateString+":\n"+((Point)point.getTag()).description,
 								Toast.LENGTH_SHORT).show();
 					}
 				});
@@ -250,7 +250,7 @@ public class MainActivity extends Activity {
 					0, LayoutParams.MATCH_PARENT,1));
 		}
 		//设置结尾颜色
-		tail.setBackgroundColor(Color.parseColor("#cccccc"));
+		tail.setBackgroundColor(Color.parseColor("#f6f6f6"));
 		//设置结尾文字 
 		//tail.setText("-");
 		//设置结尾点击事件

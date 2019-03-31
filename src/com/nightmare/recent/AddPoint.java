@@ -27,8 +27,8 @@ import android.widget.Toast;
 public class AddPoint extends Activity {
 	//预设颜色
 	static List<String> colorRange = Arrays.asList(
-			"#FF4500",
-			"#FFD700",
+			"#FFCCCC",
+			"#FFFF99",
 			"#87CEFA");
 	//新建颜色块list，用于adapter	
 	private List<ColorBlock> colorList = new ArrayList<ColorBlock>();
@@ -93,12 +93,14 @@ public class AddPoint extends Activity {
 				Log.d("recent",
 					"record "+ colorId +":"+System.currentTimeMillis()/1000+":"+description);		
 				//清空备注栏
-				detail.setText("");
+				//detail.setText("");
 				//备注栏失焦
-				detail.clearFocus();
+				//detail.clearFocus();
 				//保存成功反馈
 				Toast.makeText(
 						AddPoint.this, "saved" ,Toast.LENGTH_SHORT).show();
+				//返回
+				AddPoint.this.finish();
 			}
 		});
 //返回按钮		
