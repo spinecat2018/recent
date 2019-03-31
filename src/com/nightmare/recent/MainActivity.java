@@ -26,7 +26,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 
 	private ColorBase colorBaseHelper;
-		
+	
 	
 	
 	@Override
@@ -101,10 +101,12 @@ public class MainActivity extends Activity {
 		daysArea.removeAllViews();
 //获取当天数据，存放在list day1  
 		//获取当前秒数
-		long nowCode = System.currentTimeMillis()/1000;
+		long nowCode;	
+		nowCode = System.currentTimeMillis()/1000;
 		//转化成当天秒范围
-		long todayHead = findRange(nowCode).start;
-		long todayEnd = findRange(nowCode).end;	
+		long todayHead,todayEnd;
+		todayHead = findRange(nowCode).start;
+		todayEnd = findRange(nowCode).end;	
 		Log.d("recent", ""+nowCode+"-->"+todayHead+"-"+todayEnd);
 		//新建存放当前天数据的list
 		ArrayList<Point> today = new ArrayList<Point>();
@@ -123,7 +125,8 @@ public class MainActivity extends Activity {
 //插入前6天
 		//find days_area
 		//计算前一天秒范围
-		TimeRange yesterdayRange = new TimeRange(todayHead,todayEnd).yesterday();
+		TimeRange todayRange = new TimeRange(todayHead,todayEnd);
+		TimeRange yesterdayRange = todayRange.yesterday(todayRange);
 		//yesterdayRange.start=todayHead;
 		//yesterdayRange.end=todayEnd;
 		for(int i=0;i<6;i++){
@@ -138,7 +141,7 @@ public class MainActivity extends Activity {
 			day.setOrientation(LinearLayout.HORIZONTAL);
 			fillWithColor(yesterday, day);
 			daysArea.addView(day);
-			yesterdayRange = yesterdayRange.yesterday();	
+			yesterdayRange = yesterdayRange.yesterday(yesterdayRange);	
 		}
 //定义按钮活动
 		Button button1 = (Button) findViewById(R.id.new_record);
@@ -162,6 +165,9 @@ public class MainActivity extends Activity {
 			min=end;
 			max=start;
 		}
+		SimpleDateFormat dateformatD = new SimpleDateFormat("yyyy-MM-dd");
+		String dateString = dateformatD.format(min*1000);
+		Log.d("recent", "find from:" + dateString);
 		Cursor cursor = db.rawQuery(
 				"SELECT * FROM colors WHERE moment >= ? AND moment <= ?", 
 				new String[]{min+"",max+""});

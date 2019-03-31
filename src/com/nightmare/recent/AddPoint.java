@@ -25,112 +25,90 @@ import android.widget.Toast;
 
 
 public class AddPoint extends Activity {
-
+	//预设颜色
 	static List<String> colorRange = Arrays.asList(
 			"#FF4500",
 			"#FFD700",
 			"#87CEFA");
-	
-	
-	
+	//新建颜色块list，用于adapter	
 	private List<ColorBlock> colorList = new ArrayList<ColorBlock>();
-	
+	//用于存储spinner选取的颜色号和edittext内的备注
 	String colorCode,description;
-	
-	public static String colorTableCode;
-		
+	//public static String colorTableCode;
 	private ColorBase colorBaseHelper;
-	
-	 
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
-		//Log.d("recent","create");	
-		
+		Log.d("recent","create");	
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.add_point);
-		
-				
+		//用颜色表内序号给颜色块赋值	
 		initColors();
-						
+		//自定义spinner元素布局
 		final ColorAdapter adapter = new ColorAdapter(AddPoint.this,R.layout.color, colorList);
-		
 		Spinner spinner = (Spinner) findViewById(R.id.spinner1);
-		
 		spinner.setAdapter(adapter);
-								
+		//添加spinner事件
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 		     public void onItemSelected(AdapterView<?> parent, View view,int position, long id) {
 				ColorBlock selectColor = adapter.getItem(position);
+				//保存颜色号
 				colorCode = selectColor.getName();
-				
 		     }
 
 		     @Override
 		     public void onNothingSelected(AdapterView<?> parent) {
 		         // TODO Auto-generated method stub    
 		     }
-
 		});
 		//创建数据库
-		
 		//Log.d("recent","before db");	
 		colorBaseHelper = new ColorBase(this, "colorDataBase.db", null, 1);
-		
 		final SQLiteDatabase colorBase= colorBaseHelper.getWritableDatabase();
-		
 		//Log.d("recent","after db");			
-		//保存按钮
-		
-		Button button1 = (Button) findViewById(R.id.buttonSave);
+//保存按钮
+		Button button1 = (Button) findViewById(R.id.button_save);
+		Log.d("recent","find buttonSave");	
 		button1.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 			//点击按钮，添加数据	
-				int colorId	= colorRange.indexOf(colorCode);//获取颜色编码在数组中的序号
-				
+				//获取颜色编码在数组中的序号
+				int colorId	= colorRange.indexOf(colorCode);
+				//保存备注
 				EditText detail = (EditText) findViewById(R.id.edit_text1);
 				description = detail.getText().toString();
-				
+				//写入数据库
 				ContentValues values = new ContentValues();
-				//  开始组装第一条数据
+				//组装数据
 				values.put("moment", System.currentTimeMillis()/1000+"");
 				values.put("colorId", colorId);
 				values.put("description", description);
-				
-				colorBase.insert("colors", null, values); //  插入第一条数据
-				
+				//插入数据
+				colorBase.insert("colors", null, values); 
 				values.clear();
 				Log.d("recent",
 					"record "+ colorId +":"+System.currentTimeMillis()/1000+":"+description);		
-				
-				detail.setText("");//清空备注栏
-				detail.clearFocus();//备注栏失焦
-				
-				
-				//Date moment = new Date();
-				
-				//Log.d("recent",System.currentTimeMillis()+" + "+ sdf.format(moment));	
+				//清空备注栏
+				detail.setText("");
+				//备注栏失焦
+				detail.clearFocus();
+				//保存成功反馈
 				Toast.makeText(
-						AddPoint.this, "saved" ,Toast.LENGTH_SHORT).show();//保存成功反馈
-						
+						AddPoint.this, "saved" ,Toast.LENGTH_SHORT).show();
 			}
 		});
-		
+//返回按钮		
 		Button back = (Button) findViewById(R.id.button_back);
 		back.setOnClickListener(new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			AddPoint.this.finish();
-		}
+			@Override
+			public void onClick(View v) {
+				AddPoint.this.finish();
+			}
 		});
-		
-		
 	}	
 	
 	private void initColors() {
@@ -142,9 +120,5 @@ public class AddPoint extends Activity {
 		colorList.add(color3);
 		//Log.d("recent","init");	
 		}
-
-	
-	 
-	
 	
 }

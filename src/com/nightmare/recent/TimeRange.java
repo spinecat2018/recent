@@ -10,16 +10,11 @@ public class TimeRange {
 		start=a;
 		end=b;
 	}
-	public TimeRange yesterday(){
+	public TimeRange yesterday(TimeRange today){
 		TimeRange tr= new TimeRange();
-		tr.start-=24*60*60;
-		tr.end-=24*60*60;
+		tr.start=today.start-24*60*60;
+		tr.end=today.end-24*60*60;
 		return tr;
 	}
-	public TimeRange tomorrow(){
-		TimeRange tr= new TimeRange();
-		tr.start+=24*60*60;
-		tr.end+=24*60*60;
-		return tr;
-	}
+	
 }

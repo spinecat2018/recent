@@ -17,7 +17,7 @@ public class ColorBase extends SQLiteOpenHelper {
 	public ColorBase(Context context, String name, CursorFactory factory, int version) {
 			super(context, name, factory, version);
 			mContext = context;
-			Log.d("recent","construct");
+			Log.d("recent","helper constructed");
 			}
 	
 	
