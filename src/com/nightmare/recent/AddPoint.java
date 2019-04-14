@@ -27,9 +27,15 @@ import android.widget.Toast;
 public class AddPoint extends Activity {
 	//预设颜色
 	static List<String> colorRange = Arrays.asList(
-			"#FFCCCC",
-			"#FFFF99",
-			"#87CEFA");
+			"#aa353b",
+			"#d7711d",
+			"#dca93d",
+			"#5d9944",
+			"#3ebbda",
+			"#206096",
+			"#8a256f",
+			"#90634b",
+			"#e0bebf");
 	//新建颜色块list，用于adapter	
 	private List<ColorBlock> colorList = new ArrayList<ColorBlock>();
 	//用于存储spinner选取的颜色号和edittext内的备注
@@ -45,7 +51,7 @@ public class AddPoint extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.add_point);
 		//用颜色表内序号给颜色块赋值	
-		initColors();
+		initColors(colorRange);
 		//自定义spinner元素布局
 		final ColorAdapter adapter = new ColorAdapter(AddPoint.this,R.layout.color, colorList);
 		Spinner spinner = (Spinner) findViewById(R.id.spinner1);
@@ -113,14 +119,11 @@ public class AddPoint extends Activity {
 		});
 	}	
 	
-	private void initColors() {
-		ColorBlock color1 = new ColorBlock(colorRange.get(0));
-		colorList.add(color1);
-		ColorBlock color2 = new ColorBlock(colorRange.get(1));
-		colorList.add(color2);
-		ColorBlock color3 = new ColorBlock(colorRange.get(2));
-		colorList.add(color3);
-		//Log.d("recent","init");	
+	private void initColors(List<String> list) {
+		for(int i=0;i<list.size();i++){
+			ColorBlock color = new ColorBlock(colorRange.get(i));
+			colorList.add(color);
 		}
+	}
 	
 }

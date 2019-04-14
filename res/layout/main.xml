@@ -28,27 +28,21 @@
     <LinearLayout 
         android:id="@+id/fix_area"
         android:layout_width="match_parent"
-    	android:layout_height="20sp"
+    	android:layout_height="30sp"
      	android:orientation="horizontal">
 	     
     </LinearLayout>
     
     <TextView
 		android:layout_width="match_parent"
-		android:layout_height="30sp"		
+		android:layout_height="35sp"		
 		android:text="以往" 
 		android:textSize="16sp"
 		android:textColor="#888888"
 		android:gravity="center|bottom"
 		android:background="#ffffff"/>
     
-    <TextView
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"		
-		android:text="" 
-		android:textColor="#888888"
-		android:gravity="center"
-		android:background="#ffffff"/>
+    
     
     <LinearLayout 
         android:id="@+id/days_area"
@@ -59,26 +53,21 @@
 	     
     </LinearLayout>
     
-    <TextView
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"		
-		android:text="" 
-		android:textColor="#888888"
-		android:gravity="center"
-		android:background="#ffffff"/>
+    
     
     <Button
         android:id="@+id/new_record"
-        android:layout_width="match_parent"
+        android:layout_width="160sp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Record your Things by Colors~"
+        android:text="记录多彩生活~"
         android:textColor="#444444"
-        android:background="#CCFF99" />
+        android:background="#CCFF99"
+        android:layout_margin="10sp" />
     <TextView
 		android:layout_width="match_parent"
 		android:layout_height="16sp"		
-		android:text="RECENT v1.01  powered by spinecat" 
+		android:text="RECENT v1.1-jy  powered by spinecat" 
 		android:textSize="12sp"
 		android:textColor="#888888"
 		android:background="#ffffff"

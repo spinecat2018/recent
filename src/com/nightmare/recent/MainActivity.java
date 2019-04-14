@@ -129,7 +129,7 @@ public class MainActivity extends Activity {
 		TimeRange yesterdayRange = todayRange.yesterday(todayRange);
 		//yesterdayRange.start=todayHead;
 		//yesterdayRange.end=todayEnd;
-		for(int i=0;i<28;i++){
+		for(int i=0;i<20;i++){
 			ArrayList<Point> yesterday = new ArrayList<Point>();
 			//查前一天数据存入yesterday 
 			yesterday = select(colorBase,yesterdayRange.start,yesterdayRange.end);
@@ -251,8 +251,8 @@ public class MainActivity extends Activity {
 		}
 		//设置结尾颜色
 		tail.setBackgroundColor(Color.parseColor("#f6f6f6"));
-		//设置结尾文字 
-		//tail.setText("-");
+		//设置结尾文字 以标明空行
+		tail.setText(".");
 		//设置结尾点击事件
 		tail.setOnClickListener(new OnClickListener() {
 			@Override
