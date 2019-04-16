@@ -16,7 +16,7 @@
         <activity
 			android:name=".MainActivity"
 			android:launchMode="singleTask"
-			android:label="RECENT" >
+			android:label="琐色" >
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
