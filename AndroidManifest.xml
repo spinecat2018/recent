@@ -28,6 +28,12 @@
 		    android:launchMode="singleTask">
 		    
 		</activity>
+		
+		<activity 
+		    android:name=".EditPoint" 
+		    android:launchMode="singleTask">
+		    
+		</activity>
         
     </application>
 

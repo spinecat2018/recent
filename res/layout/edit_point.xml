@@ -7,10 +7,10 @@
 	android:focusable="true"
 	android:focusableInTouchMode="true">
 
-     <com.nightmare.recent.EditAndAdd
+   <com.nightmare.recent.EditAndAdd
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	></com.nightmare.recent.EditAndAdd>
-
-	
+    
+    
 </LinearLayout>

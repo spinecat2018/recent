@@ -25,7 +25,7 @@ public class SomePoints extends LinearLayout {
 			final TextView colorPoint = (TextView) findViewById(R.id.point_moment);//find textview
 			colorPoint.setId(i);//change id
 			colorPoint.setTag(list.get(i));//attach Point as tag
-			String s=com.nightmare.recent.AddPoint.colorRange.get(
+			String s=com.nightmare.recent.EditAndAdd.colorRange.get(
 							list.get(i).colorId);
 			Log.d("recent","color code:"+ s);
 			colorPoint.setBackgroundColor(Color.parseColor(s));//Color.parseColor("#00FF00")
