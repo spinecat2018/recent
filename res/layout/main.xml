@@ -60,14 +60,14 @@
         android:layout_width="160sp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="记录多彩生活~"
+        android:text="记录多彩微生活~"
         android:textColor="#444444"
         android:background="#CCFF99"
         android:layout_margin="10sp" />
     <TextView
 		android:layout_width="match_parent"
 		android:layout_height="16sp"		
-		android:text="RECENT v1.1-jy  powered by spinecat" 
+		android:text="MicroColors v2.1  powered by spinecat" 
 		android:textSize="12sp"
 		android:textColor="#888888"
 		android:background="#ffffff"
