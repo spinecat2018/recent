@@ -77,14 +77,14 @@ public class MainActivity extends Activity {
 		
 		
 		
-//插入前6天
+//插入前27天
 		//find days_area
 		//计算前一天秒范围
 		TimeRange todayRange = new TimeRange(todayHead,todayEnd);
 		TimeRange yesterdayRange = todayRange.yesterday(todayRange);
 		//yesterdayRange.start=todayHead;
 		//yesterdayRange.end=todayEnd;
-		for(int i=0;i<20;i++){
+		for(int i=0;i<27;i++){
 			ArrayList<Point> yesterday = new ArrayList<Point>();
 			//查前一天数据存入yesterday 
 			yesterday = select(colorBase,yesterdayRange.start,yesterdayRange.end);
@@ -111,7 +111,9 @@ public class MainActivity extends Activity {
 		
 	}
 	
-	//根据两个10位秒码查找指定数据库，选取结果存入list
+	
+	
+//根据两个10位秒码查找指定数据库，选取结果存入list
 	public static ArrayList<Point> select(SQLiteDatabase db,long start,long end){
 		ArrayList<Point> result = new ArrayList<Point> ();
 		long min=start;
@@ -150,7 +152,7 @@ public class MainActivity extends Activity {
 	}
 	
 	
-	//根据list生成颜色块，插入指定布局
+//根据list生成颜色块，插入指定布局
 	public void fillWithColor(ArrayList<Point> list, LinearLayout layout){
 		
 		Log.d("recent","start fill");
@@ -165,7 +167,7 @@ public class MainActivity extends Activity {
 				final TextView point = new TextView(this);
 				//设置边界
 				point.setText("|");
-				point.setGravity(Gravity.RIGHT|Gravity.FILL_VERTICAL);
+				point.setGravity(Gravity.RIGHT|Gravity.CENTER_VERTICAL);
 				//设置tag		
 				point.setTag(list.get(i));//attach Point as tag
 				//设置颜色
@@ -217,6 +219,7 @@ public class MainActivity extends Activity {
 		tail.setBackgroundColor(Color.parseColor("#f6f6f6"));
 		//设置结尾文字 以标明空行
 		tail.setText(".");
+		tail.setGravity(Gravity.CENTER_VERTICAL);
 		//设置结尾点击事件
 		tail.setOnClickListener(new OnClickListener() {
 			@Override
@@ -231,7 +234,7 @@ public class MainActivity extends Activity {
 	}
 	
 	
-	//get the day's range from timecode(10-bit)
+//get the day's range from timecode(10-bit)
 	public static TimeRange findRange(long timeCode){
 		//Log.d("recent","find");
 		TimeRange tr = new TimeRange();
