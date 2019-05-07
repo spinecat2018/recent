@@ -33,14 +33,40 @@
 	     
     </LinearLayout>
     
-    <TextView
-		android:layout_width="match_parent"
+    
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	>
+    	
+		<TextView
+		android:layout_width="wrap_content"
 		android:layout_height="35sp"		
-		android:text="以往" 
+		android:text="近四周" 
 		android:textSize="16sp"
-		android:textColor="#888888"
-		android:gravity="center|bottom"
-		android:background="#ffffff"/>
+		android:textColor="#555555"
+		android:gravity="center_vertical"
+		android:layout_centerHorizontal="true"
+		android:layout_centerInParent="true"
+		android:background="#ffffff"/>	
+		
+		<Button
+        android:id="@+id/check"
+        android:layout_width="60sp"
+        android:layout_height="30sp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="更多.."
+        android:textColor="#444444"
+        android:textSize="14sp"
+        
+        android:gravity="center"
+        
+        />
+        
+        
+    </RelativeLayout>
     
     
     
