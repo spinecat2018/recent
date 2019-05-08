@@ -92,7 +92,7 @@
             android:textSize="18sp" />
 
        <CheckBox
-        android:id="@+id/checkBox0"
+        android:id="@+id/checkBox_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="全部" 
@@ -101,41 +101,97 @@
     </LinearLayout>
     
     <LinearLayout        
+        android:id="@+id/color_spinners"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="invisible">
 
        <CheckBox
         android:id="@+id/checkBox1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="spinner"
-        android:checked="true" /> 
+        android:layout_height="wrap_content"       
+        android:checked="true" 
+        /> 
+        
+       <com.nightmare.recent.ColorSpinner
+        android:id="@+id/cs_1"
+		android:layout_width="0sp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		></com.nightmare.recent.ColorSpinner>
+       
+       <TextView
+        android:id="@+id/ics_1"   
+        android:layout_width="0sp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:text="添加颜色"
+		android:gravity="center"
+		android:background="#cccccc"
+		android:visibility="gone"/>
+       
         
        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" +"
+            android:text="  "
             android:textSize="18sp" />
        
        <CheckBox
         android:id="@+id/checkBox2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="spinner" />
+		android:visibility="invisible"/>
+       
+       <com.nightmare.recent.ColorSpinner
+        android:id="@+id/cs_2"   
+		android:layout_width="0sp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:visibility="gone"
+		></com.nightmare.recent.ColorSpinner>
+       
+       <TextView
+        android:id="@+id/ics_2"   
+        android:layout_width="0sp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:text="添加颜色"
+		android:gravity="center"
+		android:background="#cccccc"/>
+       
        
        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" +"
-            android:textSize="18sp" />
+            android:text="  "
+            android:textSize="18sp"/>
        
        <CheckBox
         android:id="@+id/checkBox3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="spinner" />
+		android:visibility="invisible"/>
 
+       <com.nightmare.recent.ColorSpinner
+        android:id="@+id/cs_3"   
+		android:layout_width="0sp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:visibility="gone"
+		></com.nightmare.recent.ColorSpinner>
+       
+       <TextView
+        android:id="@+id/ics_3"   
+        android:layout_width="0sp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:text="添加颜色"
+		android:gravity="center"
+		android:background="#cccccc"/>
+       
+       
     </LinearLayout>
 
     <ListView 

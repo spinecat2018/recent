@@ -98,18 +98,6 @@ public class EditAndAdd extends LinearLayout {
 			colorList.add(color);
 		}
 	}
-		
-		
-		
-		
-	
-	
-	
-	
-	
-	
-		
-	
 	
 }
 	

@@ -1,18 +1,28 @@
 package com.nightmare.recent;
 
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.media.audiofx.Visualizer.OnDataCaptureListener;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.DatePicker.OnDateChangedListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,7 +34,15 @@ public class Check extends Activity implements OnDateChangedListener {
 	private StringBuffer date = new StringBuffer("");
 	//private StringBuffer date1 = new StringBuffer("");
 	private TextView dateBegin,dateEnd;
+	
+	
 	View dialogView;
+	com.nightmare.recent.ColorSpinner cs1,cs2,cs3;
+	
+	CheckBox cbAll,cb1,cb2,cb3;
+	LinearLayout css;
+	TextView ics1,ics2,ics3;
+	
 	
 	
 	
@@ -32,9 +50,10 @@ public class Check extends Activity implements OnDateChangedListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		Log.d("recent", "setup layout");
 		setContentView(R.layout.check_setup);
 		Log.d("recent", "oncreate");
-
+//date picker
 		Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
@@ -148,6 +167,157 @@ public class Check extends Activity implements OnDateChangedListener {
 		});	
 
 		
+		
+//CheckBox
+		
+		cbAll = (CheckBox)findViewById(R.id.checkBox_all);
+		css = (LinearLayout)findViewById(R.id.color_spinners);
+		
+		cbAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){ 
+            @Override 
+            public void onCheckedChanged(CompoundButton buttonView, 
+                    boolean isChecked) { 
+                // TODO Auto-generated method stub 
+                if(isChecked){ 
+                	
+                	css.setVisibility(View.INVISIBLE);
+                	//cb1.setChecked(true);
+                	//cb2.setChecked(false);
+                	//cb3.setChecked(false);
+                }else{ 
+                	
+                	css.setVisibility(View.VISIBLE);
+                	//cb1.setVisibility(View.VISIBLE);
+                	//cs1.setVisibility(View.VISIBLE);
+                	//ics1.setVisibility(View.GONE);
+                	//cb1.setChecked(true);
+                	//cb2.setChecked(false);
+                	//cb3.setChecked(false);
+                } 
+            } 
+        });
+
+		cb1 = (CheckBox)findViewById(R.id.checkBox1);
+		cs1 = (com.nightmare.recent.ColorSpinner)findViewById(R.id.cs_1);
+		ics1 = (TextView)findViewById(R.id.ics_1);
+		
+		cb1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){ 
+            @Override 
+            public void onCheckedChanged(CompoundButton buttonView, 
+                    boolean isChecked) { 
+                // TODO Auto-generated method stub 
+                if(!isChecked){ 
+                	ics1.setVisibility(View.VISIBLE);
+                	
+                	cs1.setVisibility(View.GONE);
+                	cb1.setVisibility(View.INVISIBLE);
+                	Log.d("recent", "uncheck");
+                	if(!cb1.isChecked()&&!cb2.isChecked()&&!cb3.isChecked()==true){
+                		cbAll.setChecked(true);
+                		cb1.setChecked(true);
+                		ics1.setVisibility(View.GONE);
+                		cs1.setVisibility(View.VISIBLE);
+                		cb1.setVisibility(View.VISIBLE);
+                		
+                	}
+                } 
+            } 
+        });
+		
+		ics1.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				ics1.setVisibility(View.GONE);
+            	cs1.setVisibility(View.VISIBLE);
+            	cb1.setVisibility(View.VISIBLE);
+            	
+            	cb1.setChecked(true);
+			}
+		});
+		
+		
+		cb2 = (CheckBox)findViewById(R.id.checkBox2);
+		cs2 = (com.nightmare.recent.ColorSpinner)findViewById(R.id.cs_2);
+		ics2 = (TextView)findViewById(R.id.ics_2);
+		
+		cb2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){ 
+            @Override 
+            public void onCheckedChanged(CompoundButton buttonView, 
+                    boolean isChecked) { 
+                // TODO Auto-generated method stub 
+                if(!isChecked){ 
+                	ics2.setVisibility(View.VISIBLE);
+                	cs2.setVisibility(View.GONE);
+                	cb2.setVisibility(View.INVISIBLE);
+                	Log.d("recent", "uncheck");
+                	if(!cb1.isChecked()&&!cb2.isChecked()&&!cb3.isChecked()==true){
+                		cbAll.setChecked(true);
+                		cb2.setChecked(true);
+                		ics2.setVisibility(View.GONE);
+                		cs2.setVisibility(View.VISIBLE);
+                		cb2.setVisibility(View.VISIBLE);
+                	}
+                } 
+            } 
+        });
+		
+		ics2.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				ics2.setVisibility(View.GONE);
+            	cs2.setVisibility(View.VISIBLE);
+            	cb2.setVisibility(View.VISIBLE);
+            	cb2.setChecked(true);
+			}
+		});
+		
+		
+		cb3 = (CheckBox)findViewById(R.id.checkBox3);
+		cs3 = (com.nightmare.recent.ColorSpinner)findViewById(R.id.cs_3);
+		ics3 = (TextView)findViewById(R.id.ics_3);
+		
+		cb3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){ 
+            @Override 
+            public void onCheckedChanged(CompoundButton buttonView, 
+                    boolean isChecked) { 
+                // TODO Auto-generated method stub 
+                if(!isChecked){ 
+                	ics3.setVisibility(View.VISIBLE);
+                	cs3.setVisibility(View.GONE);
+                	cb3.setVisibility(View.INVISIBLE);
+                	Log.d("recent", "uncheck");
+                	if(!cb1.isChecked()&&!cb2.isChecked()&&!cb3.isChecked()==true){
+                		cbAll.setChecked(true);
+                		cb3.setChecked(true);
+                		cs3.setVisibility(View.VISIBLE);
+                		ics3.setVisibility(View.GONE);
+                		cb3.setVisibility(View.VISIBLE);
+                	}
+                } 
+            } 
+        });
+		
+		ics3.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				ics3.setVisibility(View.GONE);
+            	cs3.setVisibility(View.VISIBLE);
+            	cb3.setVisibility(View.VISIBLE);
+            	cb3.setChecked(true);
+			}
+		});
+		
+
+		
+
+		
+		
 	}
 
 
@@ -159,5 +329,13 @@ public class Check extends Activity implements OnDateChangedListener {
         this.day = dayOfMonth;
        
 	}
+	
+	void showColors(){
+		if(!cbAll.isChecked()){
+			cs1.setVisibility(View.VISIBLE);	
+				}
+		
+	}
+	
 		
 }
