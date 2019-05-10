@@ -17,7 +17,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 public class ColorSpinner extends LinearLayout {
 
-	static List<String> colorRange = Arrays.asList(
+	static final List<String> colorRange = Arrays.asList(
 			"#aa353b",
 			"#d7711d",
 			"#dca93d",
@@ -27,10 +27,10 @@ public class ColorSpinner extends LinearLayout {
 			"#8a256f",
 			"#90634b",
 			"#e0bebf");
-	List<ColorBlock> colorList;
+	ArrayList<ColorBlock> colorList = new ArrayList<ColorBlock>();
 	
-	static String selectColorCode;
-	
+	String selectColorCode;
+	Spinner spinner ;
 	
 	public ColorSpinner(Context context, AttributeSet attrs){
 		super(context,attrs);
@@ -38,11 +38,19 @@ public class ColorSpinner extends LinearLayout {
 		LayoutInflater.from(context).inflate(R.layout.color_spinner, this);
 		
 		
-		initColors(colorRange);
+		
+		initColors(colorRange,colorList);
+		
+		
 		//自定义spinner元素布局
 		final ColorAdapter adapter = new ColorAdapter(((Activity) getContext()),R.layout.color, colorList);
-		Spinner spinner = (Spinner) findViewById(R.id.spinner0);
+		spinner = (Spinner) findViewById(R.id.spinner0);
 		spinner.setAdapter(adapter);
+		
+		//spinner.setSelection(0,true);
+		
+		//selectColorCode = ((ColorBlock)spinner.getSelectedItem()).getName();
+		
 		//添加spinner事件
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
@@ -69,12 +77,22 @@ public class ColorSpinner extends LinearLayout {
 	
 	
 	//初始化颜色列表	
-	void initColors(List<String> list) {
-		colorList = new ArrayList<ColorBlock>();
+	void initColors(List<String> list,ArrayList<ColorBlock> cl) {
+		cl.clear();
 		for(int i=0;i<list.size();i++){
 			ColorBlock color = new ColorBlock(list.get(i));
-			colorList.add(color);
+			cl.add(color);
 		}
+	}
+	
+	void resetSpinner(ColorAdapter a){
+		spinner.setAdapter(a);
+	}
+	
+	String selectedColor(){
+		
+		return ((ColorBlock)spinner.getSelectedItem()).getName();
+	
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.nightmare.recent;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -26,6 +27,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.DatePicker.OnDateChangedListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Check extends Activity implements OnDateChangedListener {
 
@@ -168,7 +170,7 @@ public class Check extends Activity implements OnDateChangedListener {
 
 		
 		
-//CheckBox
+//color select
 		
 		cbAll = (CheckBox)findViewById(R.id.checkBox_all);
 		css = (LinearLayout)findViewById(R.id.color_spinners);
@@ -187,6 +189,12 @@ public class Check extends Activity implements OnDateChangedListener {
                 }else{ 
                 	
                 	css.setVisibility(View.VISIBLE);
+                	
+                	Log.d("recent", "show 1:"+cs1.selectColorCode);
+                	Log.d("recent", "show 2:"+cs2.selectColorCode);
+                	
+                	setupSpinner(cs1,cs2,cs3);
+                	
                 	//cb1.setVisibility(View.VISIBLE);
                 	//cs1.setVisibility(View.VISIBLE);
                 	//ics1.setVisibility(View.GONE);
@@ -197,10 +205,14 @@ public class Check extends Activity implements OnDateChangedListener {
             } 
         });
 
+//spinner1		
+		
 		cb1 = (CheckBox)findViewById(R.id.checkBox1);
 		cs1 = (com.nightmare.recent.ColorSpinner)findViewById(R.id.cs_1);
 		ics1 = (TextView)findViewById(R.id.ics_1);
-		
+		//Spinner spinner1 = (Spinner)cs1.findViewById(R.id.spinner0);
+		//spinner1.setId(R.id.spinner0);
+				
 		cb1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){ 
             @Override 
             public void onCheckedChanged(CompoundButton buttonView, 
@@ -211,8 +223,9 @@ public class Check extends Activity implements OnDateChangedListener {
                 	
                 	cs1.setVisibility(View.GONE);
                 	cb1.setVisibility(View.INVISIBLE);
-                	Log.d("recent", "uncheck");
+                	Log.d("recent", "uncheck1");
                 	if(!cb1.isChecked()&&!cb2.isChecked()&&!cb3.isChecked()==true){
+                	//if(!cb1.isChecked()&&!cb2.isChecked()==true){
                 		cbAll.setChecked(true);
                 		cb1.setChecked(true);
                 		ics1.setVisibility(View.GONE);
@@ -220,9 +233,11 @@ public class Check extends Activity implements OnDateChangedListener {
                 		cb1.setVisibility(View.VISIBLE);
                 		
                 	}
-                } 
+                }
             } 
         });
+		
+		
 		
 		ics1.setOnClickListener(new OnClickListener() {
 			
@@ -231,16 +246,25 @@ public class Check extends Activity implements OnDateChangedListener {
 				// TODO Auto-generated method stub
 				ics1.setVisibility(View.GONE);
             	cs1.setVisibility(View.VISIBLE);
+            	
+            	setupSpinner(cs1,cs2,cs3);
+            	
             	cb1.setVisibility(View.VISIBLE);
             	
             	cb1.setChecked(true);
+            
 			}
 		});
 		
 		
+		
+//spinner2		
 		cb2 = (CheckBox)findViewById(R.id.checkBox2);
 		cs2 = (com.nightmare.recent.ColorSpinner)findViewById(R.id.cs_2);
 		ics2 = (TextView)findViewById(R.id.ics_2);
+		
+		//Spinner spinner2 = (Spinner)cs2.findViewById(R.id.spinner0);
+		//spinner2.setSelection(0);
 		
 		cb2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){ 
             @Override 
@@ -251,8 +275,10 @@ public class Check extends Activity implements OnDateChangedListener {
                 	ics2.setVisibility(View.VISIBLE);
                 	cs2.setVisibility(View.GONE);
                 	cb2.setVisibility(View.INVISIBLE);
-                	Log.d("recent", "uncheck");
+                	Log.d("recent", "uncheck2");
+                	
                 	if(!cb1.isChecked()&&!cb2.isChecked()&&!cb3.isChecked()==true){
+                	//if(!cb1.isChecked()&&!cb2.isChecked()==true){
                 		cbAll.setChecked(true);
                 		cb2.setChecked(true);
                 		ics2.setVisibility(View.GONE);
@@ -270,11 +296,15 @@ public class Check extends Activity implements OnDateChangedListener {
 				// TODO Auto-generated method stub
 				ics2.setVisibility(View.GONE);
             	cs2.setVisibility(View.VISIBLE);
+            	
+            	setupSpinner(cs2,cs1,cs3);
+            	
             	cb2.setVisibility(View.VISIBLE);
             	cb2.setChecked(true);
 			}
 		});
 		
+//spinner3		
 		
 		cb3 = (CheckBox)findViewById(R.id.checkBox3);
 		cs3 = (com.nightmare.recent.ColorSpinner)findViewById(R.id.cs_3);
@@ -308,6 +338,9 @@ public class Check extends Activity implements OnDateChangedListener {
 				// TODO Auto-generated method stub
 				ics3.setVisibility(View.GONE);
             	cs3.setVisibility(View.VISIBLE);
+            	
+            	setupSpinner(cs3,cs1,cs2);
+            	
             	cb3.setVisibility(View.VISIBLE);
             	cb3.setChecked(true);
 			}
@@ -330,10 +363,63 @@ public class Check extends Activity implements OnDateChangedListener {
        
 	}
 	
-	void showColors(){
-		if(!cbAll.isChecked()){
-			cs1.setVisibility(View.VISIBLE);	
-				}
+	void setupSpinner(ColorSpinner spChanged,ColorSpinner sp1,ColorSpinner sp2){
+		
+		//sp1获取另外两个spinner的当前值，从list中删除，初始化
+		//sp2同样
+		Log.d("recent", "setup");
+		String spChangedV,sp1V = null,sp2V = null;
+		
+		spChangedV = spChanged.selectedColor();
+		
+		
+		if(sp1.getVisibility()==View.VISIBLE){
+			sp1V = sp1.selectedColor();
+		}
+		
+		if(sp2.getVisibility()==View.VISIBLE){
+			sp2V = sp2.selectedColor();
+		}
+		
+		
+		Log.d("recent","changed code:"+spChanged.selectColorCode);
+		Log.d("recent","code 1:"+sp1.selectColorCode);
+	//	Log.d("recent",sp2V+" 2");
+		//ArrayList<ColorBlock> cL = (ArrayList<ColorBlock>) com.nightmare.recent.ColorSpinner.colorList.clone();
+		
+		ArrayList<ColorBlock> cL;
+		cL= new ArrayList<ColorBlock>();
+		//获取颜色表
+		List<String> cR;
+		cR = new ArrayList<String>();
+		cR.addAll(com.nightmare.recent.ColorSpinner.colorRange); 
+		
+		Log.d("recent","colorlist:"+cR.toString());
+		
+		cR.remove(sp1V);
+		Log.d("recent","remove:"+sp1V);
+		cR.remove(sp2V);
+		Log.d("recent","remove:"+sp2V);
+		Log.d("recent","colorlist change:"+cR.toString());
+		
+		
+		spChanged.initColors(cR,cL);
+		ColorAdapter adapter = new ColorAdapter(Check.this,R.layout.color, cL);
+		spChanged.resetSpinner(adapter);
+		
+		//Spinner spinner = (Spinner) spChanged.findViewById(idC);
+		//spinner.setAdapter(adapter);
+		//把颜色值指向第一项
+		spChanged.selectColorCode=spChanged.selectedColor();
+		
+		//ColorBlock cB = new ColorBlock(spChanged.selectColorCode);
+	
+		//spinner.setSelection(cL.indexOf(cB));
+		
+		
+		Log.d("recent","change code to:"+spChanged.selectColorCode);
+		Log.d("recent","code 1:"+sp1.selectColorCode);
+		//Log.d("recent",sp2V+" 2-");
 		
 	}
 	
