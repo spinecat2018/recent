@@ -29,7 +29,7 @@ public class ColorSpinner extends LinearLayout {
 			"#e0bebf");
 	ArrayList<ColorBlock> colorList = new ArrayList<ColorBlock>();
 	
-	String selectColorCode;
+	String selectColorCode = "";
 	Spinner spinner ;
 	
 	public ColorSpinner(Context context, AttributeSet attrs){
@@ -46,6 +46,8 @@ public class ColorSpinner extends LinearLayout {
 		final ColorAdapter adapter = new ColorAdapter(((Activity) getContext()),R.layout.color, colorList);
 		spinner = (Spinner) findViewById(R.id.spinner0);
 		spinner.setAdapter(adapter);
+		
+		//selectColorCode = ((ColorBlock)spinner.getSelectedItem()).getName();
 		
 		//spinner.setSelection(0,true);
 		
@@ -84,11 +86,13 @@ public class ColorSpinner extends LinearLayout {
 			cl.add(color);
 		}
 	}
-	
+
+	//重设spinner
 	void resetSpinner(ColorAdapter a){
 		spinner.setAdapter(a);
 	}
 	
+	//获取当前颜色
 	String selectedColor(){
 		
 		return ((ColorBlock)spinner.getSelectedItem()).getName();
