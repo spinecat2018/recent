@@ -31,6 +31,8 @@ public class ColorSpinner extends LinearLayout {
 	
 	String selectColorCode = "";
 	Spinner spinner ;
+	ColorAdapter adapter;
+	
 	
 	public ColorSpinner(Context context, AttributeSet attrs){
 		super(context,attrs);
@@ -43,7 +45,7 @@ public class ColorSpinner extends LinearLayout {
 		
 		
 		//自定义spinner元素布局
-		final ColorAdapter adapter = new ColorAdapter(((Activity) getContext()),R.layout.color, colorList);
+		adapter = new ColorAdapter(((Activity) getContext()),R.layout.color, colorList);
 		spinner = (Spinner) findViewById(R.id.spinner0);
 		spinner.setAdapter(adapter);
 		
@@ -98,5 +100,13 @@ public class ColorSpinner extends LinearLayout {
 		return ((ColorBlock)spinner.getSelectedItem()).getName();
 	
 	}
+	
+	//获取adapter
+	ColorAdapter getAdapter(){
+			
+			return adapter;
+		
+	}
+
 
 }

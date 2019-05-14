@@ -189,7 +189,8 @@
 		android:layout_weight="1"
 		android:text="添加颜色"
 		android:gravity="center"
-		android:background="#cccccc"/>
+		android:background="#cccccc"
+		android:visibility="invisible"/>
        
        
     </LinearLayout>

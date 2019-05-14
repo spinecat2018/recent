@@ -9,6 +9,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.audiofx.Visualizer.OnDataCaptureListener;
 import android.os.Bundle;
 import android.util.AttributeSet;
@@ -201,189 +203,178 @@ public class Check extends Activity implements OnDateChangedListener {
                 if(isChecked){ 
                 	
                 	css.setVisibility(View.INVISIBLE);
-                	//cb1.setChecked(true);
-                	//cb2.setChecked(false);
-                	//cb3.setChecked(false);
+                	
                 }else{ 
          //如果未选中，显示三个spinner 	
                 	css.setVisibility(View.VISIBLE);
                 	
-                	//Log.d("recent", "show 1:"+cs1.selectedColor());
-                	//Log.d("recent", "show 2:"+cs2.selectedColor());
-                	//Log.d("recent", "ALL");
-                //	setupSpinner(cs1,cs2,cs3);
                 	
-                //	setupSpinner(cs2,cs1,cs3);
-                	
-               // 	setupSpinner(cs3,cs1,cs2);
-                	
-                	//cb1.setVisibility(View.VISIBLE);
-                	//cs1.setVisibility(View.VISIBLE);
-                	//ics1.setVisibility(View.GONE);
-                	//cb1.setChecked(true);
-                	//cb2.setChecked(false);
-                	//cb3.setChecked(false);
                 } 
             } 
         });
 
-//spinner1		
+
+	
 		
+		ColorDrawable colorDrawable= (ColorDrawable) ics1.getBackground();//获取背景颜色
+		final int c = colorDrawable.getColor();
 		
-		//Spinner spinner1 = (Spinner)cs1.findViewById(R.id.spinner0);
-		//spinner1.setId(R.id.spinner0);
-	//如果取消，显示替代控件，撤去spinner，隐藏选取框			
+		final String s = (String) ics1.getText();
+		
+	//如果取消，勾选cb1，勾选cbALL（隐藏三个spinner布局）
 		cb1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){ 
             @Override 
             public void onCheckedChanged(CompoundButton buttonView, 
                     boolean isChecked) { 
                 // TODO Auto-generated method stub 
                 if(!isChecked){ 
-                	ics1.setVisibility(View.VISIBLE);
-                	
-                	cs1.setVisibility(View.GONE);
-                	cb1.setVisibility(View.INVISIBLE);
-                	Log.d("recent", "uncheck1");
-                //如果三个选取框都未选中，勾选cball，撤去替代控件，显示选取框1，勾选cb1，显示spinner1，
-                	if(!cb1.isChecked()&&!cb2.isChecked()&&!cb3.isChecked()==true){
-                	//if(!cb1.isChecked()&&!cb2.isChecked()==true){
-                		cbAll.setChecked(true);
-                		ics1.setVisibility(View.GONE);
-                		cb1.setVisibility(View.VISIBLE);
-                		cb1.setChecked(true);
-                		cs1.setVisibility(View.VISIBLE);
-                	}
-                	setupSpinner(cs2,cs1,cs3);
-                	setupSpinner(cs3,cs1,cs2);
+                	cb1.setChecked(true);
+                	//css.setVisibility(View.INVISIBLE);
+                	cbAll.setChecked(true);
+               	
                 }
             } 
         });
 		
-		
-	//点击，撤去替代1，	显示选框1，勾选1，显示spinner1，调整spinner1，2，3，
-		ics1.setOnClickListener(new OnClickListener() {
+	//如果点击ics2，隐藏cb1，显示ics1，把ics1的颜色设为cs1的值，把文字设为“已选定”，
+	//撤去cs1，撤去ics2，显示cb2，勾选cb2，显示cs2，重设cs2
+	//显示ics3
+		ics2.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				ics1.setVisibility(View.GONE);
-				cb1.setVisibility(View.VISIBLE);
-            	cb1.setChecked(true);
-            	cs1.setVisibility(View.VISIBLE);
+				cb1.setVisibility(View.INVISIBLE);
+				ics1.setVisibility(View.VISIBLE);
+				ics1.setBackgroundColor(Color.parseColor(cs1.selectedColor()));
+				ics1.setText("已选定");
+				cs1.setVisibility(View.GONE);
+				
+				ics2.setVisibility(View.GONE);
+				
+				cb2.setVisibility(View.VISIBLE);
+            	cb2.setChecked(true);
+				cs2.setVisibility(View.VISIBLE);
+
+            	setupSpinner(cs2,cs1.selectedColor(),null);
             	
-            	Log.d("recent", "1:");
-            	setupSpinner(cs1,cs2,cs3);
-            	
-            	setupSpinner(cs2,cs1,cs3);
-            	
-            	setupSpinner(cs3,cs1,cs2);            
+            	ics3.setVisibility(View.VISIBLE);
+
 			}
 		});
-		
-//spinner2		
-		
-		//Spinner spinner2 = (Spinner)cs2.findViewById(R.id.spinner0);
-		//spinner2.setSelection(0);
-		
+	
+	//如果取消cb2，勾选cb2，隐藏cb2，撤去cs2，显示ics2，恢复原背景色，恢复原文字，撤去ics1，显示cb1，显示cs1，  
 		cb2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){ 
             @Override 
             public void onCheckedChanged(CompoundButton buttonView, 
                     boolean isChecked) { 
                 // TODO Auto-generated method stub 
                 if(!isChecked){ 
-                	ics2.setVisibility(View.VISIBLE);
-                	cs2.setVisibility(View.GONE);
+                	
+                	cb2.setChecked(true);
                 	cb2.setVisibility(View.INVISIBLE);
-                	Log.d("recent", "uncheck2");
+                	cs2.setVisibility(View.GONE);
+                	ics2.setVisibility(View.VISIBLE);
                 	
-                	if(!cb1.isChecked()&&!cb2.isChecked()&&!cb3.isChecked()==true){
-                	//if(!cb1.isChecked()&&!cb2.isChecked()==true){
-                		cbAll.setChecked(true);
-                		cb2.setChecked(true);
-                		ics2.setVisibility(View.GONE);
-                		cs2.setVisibility(View.VISIBLE);
-                		cb2.setVisibility(View.VISIBLE);
-                	}
+                	ics2.setBackgroundColor(c);
+                	ics2.setText(s);
+
                 	
-                	setupSpinner(cs1,cs2,cs3);
-                	setupSpinner(cs3,cs1,cs2);
+                	ics1.setVisibility(View.GONE);
+                	cb1.setVisibility(View.VISIBLE);
+                	cs1.setVisibility(View.VISIBLE);
+                	                	
                 } 
             } 
         });
 		
-		ics2.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				ics2.setVisibility(View.GONE);
-            	cs2.setVisibility(View.VISIBLE);
-            	Log.d("recent", "2:");
-            	setupSpinner(cs2,cs1,cs3);
-            	
-            	setupSpinner(cs1,cs2,cs3);
-            	
-            	setupSpinner(cs3,cs1,cs2);
-            	
-            	cb2.setVisibility(View.VISIBLE);
-            	cb2.setChecked(true);
-			}
-		});
 		
-//spinner3		
-		
-		
-		
-		cb3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){ 
-            @Override 
-            public void onCheckedChanged(CompoundButton buttonView, 
-                    boolean isChecked) { 
-                // TODO Auto-generated method stub 
-                if(!isChecked){ 
-                	
-                	ics3.setVisibility(View.VISIBLE);
-                	cs3.setVisibility(View.GONE);
-                	cb3.setVisibility(View.INVISIBLE);
-                	Log.d("recent", "uncheck");
-                	if(!cb1.isChecked()&&!cb2.isChecked()&&!cb3.isChecked()==true){
-                		cbAll.setChecked(true);
-                		cb3.setChecked(true);
-                		cs3.setVisibility(View.VISIBLE);
-                		ics3.setVisibility(View.GONE);
-                		cb3.setVisibility(View.VISIBLE);
-                	}
-                	
-                	setupSpinner(cs1,cs2,cs3);
-                	setupSpinner(cs2,cs1,cs3);
-                	
-                	
-                } 
-            } 
-        });
-		
-		ics3.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				ics3.setVisibility(View.GONE);
-            	cs3.setVisibility(View.VISIBLE);
-            	
-            	Log.d("recent", "3:");
-            	setupSpinner(cs3,cs1,cs2);
-            	
-            	setupSpinner(cs1,cs2,cs3);
-            	
-            	setupSpinner(cs2,cs1,cs3);
-            	
-            	cb3.setVisibility(View.VISIBLE);
-            	cb3.setChecked(true);
-			}
-		});
-		
+	//如果点击ics3，隐藏cb2，显示ics2，把ics2的颜色设为cs2的值，把文字设为“已选定”，
+	//撤去cs2，撤去ics3，显示cb3，勾选cb3，显示cs3，重设cs3
 
-		
+			ics3.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					cb2.setVisibility(View.INVISIBLE);
+					ics2.setVisibility(View.VISIBLE);
+					ics2.setBackgroundColor(Color.parseColor(cs2.selectedColor()));
+					ics2.setText("已选定");
+					cs2.setVisibility(View.GONE);
+					
+					ics3.setVisibility(View.GONE);
+					
+					cb3.setVisibility(View.VISIBLE);
+	            	cb3.setChecked(true);
+					cs3.setVisibility(View.VISIBLE);
 
+	            	setupSpinner(cs3,cs1.selectedColor(),cs2.selectedColor());
+
+	            	
+	            	ics2.setOnClickListener(new OnClickListener() {
+	        			
+	        			@Override
+	        			public void onClick(View v) {
+	        				// TODO Auto-generated method stub
+	        				
+	        			}
+	        		});
+	            	
+	            	
+				}
+			});
+		
+	//如果取消cb3，勾选cb3，隐藏cb3，撤去cs3，显示ics3，撤去ics2，显示cb2，显示cs2，  
+			cb3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){ 
+	            @Override 
+	            public void onCheckedChanged(CompoundButton buttonView, 
+	                    boolean isChecked) { 
+	                // TODO Auto-generated method stub 
+	                if(!isChecked){ 
+	                	
+	                	cb3.setChecked(true);
+	                	cb3.setVisibility(View.INVISIBLE);
+	                	cs3.setVisibility(View.GONE);
+	                	ics3.setVisibility(View.VISIBLE);
+	                	
+	                	ics3.setBackgroundColor(c);
+	                	ics3.setText(s);
+	                	
+	                	ics2.setVisibility(View.GONE);
+	                	cb2.setVisibility(View.VISIBLE);
+	                	cs2.setVisibility(View.VISIBLE);
+	                	
+	                	
+	                	ics2.setOnClickListener(new OnClickListener() {
+	            			
+	            			@Override
+	            			public void onClick(View v) {
+	            				// TODO Auto-generated method stub
+	            				cb1.setVisibility(View.INVISIBLE);
+	            				ics1.setVisibility(View.VISIBLE);
+	            				ics1.setBackgroundColor(Color.parseColor(cs1.selectedColor()));
+	            				ics1.setText("已选定");
+	            				cs1.setVisibility(View.GONE);
+	            				
+	            				ics2.setVisibility(View.GONE);
+	            				
+	            				cb2.setVisibility(View.VISIBLE);
+	                        	cb2.setChecked(true);
+	            				cs2.setVisibility(View.VISIBLE);
+
+	                        	setupSpinner(cs2,cs1.selectedColor(),null);
+	                        	
+	                        	ics3.setVisibility(View.VISIBLE);
+
+	            			}
+	            		});
+	                	                	
+	                } 
+	            } 
+	        });
+					
+		
 		
 		
 	}
@@ -401,100 +392,30 @@ public class Check extends Activity implements OnDateChangedListener {
 	
 //根据另外两个spinner的当前值，更新当前spinner的选项列表	/id changed
 	
-	void setupSpinner(ColorSpinner spChanged,ColorSpinner sp1,ColorSpinner sp2){
+	void setupSpinner(ColorSpinner sp,String existColor1,String existColor2){
 		//Log.d("recent", "-------------setup");
-		
-		int idC=100,id2=100,id1=100;
-	//获取设置spinner的当前值，转化为根颜色表的索引号
-		idC = com.nightmare.recent.ColorSpinner.colorRange.indexOf(spChanged.selectedColor());
-		Log.d("recent","-------changed code:"+idC);
-		
-		//Log.d("recent","invisible="+View.VISIBLE);
-		//Log.d("recent",""+spChanged.getVisibility());
-	//如果不可见，返回
-		if(spChanged.getVisibility()!=View.VISIBLE){
-			Log.d("recent", "out---------");
-			return;
-		}
-	//如果当前值与其他spinner不同，保存当前值
-		String color1="",color2="";
-		if(sp1.getVisibility()==View.VISIBLE){
-			color1=sp1.selectedColor();
-		}
-		if(sp2.getVisibility()==View.VISIBLE){
-			color2=sp2.selectedColor();
-		}
-		
-		String saveColor = "";
-		
-		if(!spChanged.selectedColor().equals(color1) && 
-				!spChanged.selectedColor().equals(color2)){
-			
-			saveColor = spChanged.selectedColor();
-		}
-		
-		
-		
-	//获取另外两个spinner的当前值，从list中删除，初始化spchanged
 
-		
-		String spChangedV,sp1V = null,sp2V = null;
-		
-		spChangedV = spChanged.selectedColor();
-		
-		
-		if(sp1.getVisibility()==View.VISIBLE){
-			sp1V = sp1.selectedColor();
-			id1 = com.nightmare.recent.ColorSpinner.colorRange.indexOf(sp1.selectedColor());
-			Log.d("recent","code 1:"+id1);
-		}
-		
-		if(sp2.getVisibility()==View.VISIBLE){
-			sp2V = sp2.selectedColor();
-			id2 = com.nightmare.recent.ColorSpinner.colorRange.indexOf(sp2.selectedColor());
-			Log.d("recent","code 2:"+id2);
-		}
-		
-		
 	//复制根颜色表
 		List<String> cR;
 		cR = new ArrayList<String>();
 		cR.addAll(com.nightmare.recent.ColorSpinner.colorRange); 
 	//删除重复颜色	
-		cR.remove(sp1V);
-		Log.d("recent","remove:"+id1);
-		cR.remove(sp2V);
-		Log.d("recent","remove:"+id2);
+		cR.remove(existColor1);
+		Log.d("recent","remove:"+existColor1);
+		
+		cR.remove(existColor2);
+		Log.d("recent","remove:"+existColor2);
+		
 		Log.d("recent","colorlist change:"+cR.toString());
 		
 	//重设spchanged列表，当前值将为0
 		ArrayList<ColorBlock> cL;
 		cL= new ArrayList<ColorBlock>();		
-		spChanged.initColors(cR,cL);
+		sp.initColors(cR,cL);
 		ColorAdapter adapter = new ColorAdapter(Check.this,R.layout.color, cL);
-		spChanged.resetSpinner(adapter);
-		Log.d("recent","--select--"+ spChanged.selectedColor());
-	//如果保存了之前的颜色，设置spchanged的当前值为对应索引号	
-		if(saveColor!= ""){//已初始化
-			spChanged.spinner.setSelection(cR.indexOf(saveColor)); ;
-			
-		}
-		
-		Log.d("recent","--select--"+ spChanged.selectedColor());
-		
-		Log.d("recent","colorlist change:"+cR.toString());
-		
-		//Log.d("recent","spChanged.selectedColor():"+spChanged.selectedColor());
-		
-		idC = cR.indexOf(spChanged.selectColorCode);
-		Log.d("recent","change code to:"+idC);
-
-		id1 = cR.indexOf(sp1.selectedColor());
-		Log.d("recent","code 1:"+id1);
-		
-
-		id2 = cR.indexOf(sp2.selectedColor());
-		Log.d("recent","code 2:"+id2);		
+		sp.resetSpinner(adapter);
+		Log.d("recent","--select--"+ sp.selectedColor());
+	
 	}
 	
 		
