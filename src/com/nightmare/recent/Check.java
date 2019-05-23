@@ -1,5 +1,7 @@
 package com.nightmare.recent;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -9,6 +11,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.audiofx.Visualizer.OnDataCaptureListener;
@@ -17,10 +22,13 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -47,7 +55,7 @@ public class Check extends Activity implements OnDateChangedListener {
 	LinearLayout css;
 	TextView ics1,ics2,ics3;
 	
-	
+	ColorBase colorBaseHelper= new ColorBase(this, "colorDataBase.db", null, 1);
 	
 	
 	@Override
@@ -56,7 +64,7 @@ public class Check extends Activity implements OnDateChangedListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		Log.d("recent", "setup layout");
 		setContentView(R.layout.check_setup);
-		Log.d("recent", "oncreate");
+		Log.d("check", "oncreate");
 //date picker
 		Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -176,6 +184,8 @@ public class Check extends Activity implements OnDateChangedListener {
 		//check box all/color spinners/instead color spinner textView
 		
 		cbAll = (CheckBox)findViewById(R.id.checkBox_all);
+		
+		//Log.d("check",cbAll.isSelected()+"?selectall");
 		css = (LinearLayout)findViewById(R.id.color_spinners);
 		
 		cb1 = (CheckBox)findViewById(R.id.checkBox1);
@@ -373,8 +383,250 @@ public class Check extends Activity implements OnDateChangedListener {
 	                } 
 	            } 
 	        });
+			
+	//定义按钮
+			
+			final LinearLayout scroll = (LinearLayout)findViewById(R.id.scroll);
+			
+			Button backOfCheck = (Button) findViewById(R.id.back_check);
+			backOfCheck.setOnClickListener( new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+				//点击退出check活动
 					
-		
+					Log.d("check", "click back");
+					finish();
+				}
+			});
+
+
+			Button check = (Button) findViewById(R.id.check);
+			check.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					
+				Log.d("check", "click check");	
+				
+				scroll.removeAllViews();
+				
+				Log.d("check", "clear");
+				//获取各控件当前值，生成查询条件，查询数据库，得到数据，填充scrollview
+				//时间范围 查询的起始时间为当日开始时刻，截止时间为当日结束时刻
+				String date1 = (String) dateBegin.getText()+"0时0分0秒";	//2019年5月7日
+				
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
+				
+				long dateCode1=1000;
+				try {
+					dateCode1 = sdf.parse(date1).getTime()/1000;
+					Log.d("check", dateCode1+"<-dateCode1");
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+								
+				String date2 = 	(String) dateEnd.getText()+"23时59分59秒";
+				
+				long dateCode2=1000;
+				try {
+					dateCode2 = sdf.parse(date2).getTime()/1000;
+					Log.d("check", dateCode2+"<-dateCode2");
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				//查询 根据颜色选择结果生成不同的查询条件
+				
+				//创建数据库，或获得已存在的数据库
+				SQLiteDatabase colorBase= colorBaseHelper.getWritableDatabase();
+				Cursor cursor;
+				
+				
+				//颜色范围  如果勾选全部颜色
+				
+				//Log.d("check",cbAll.isChecked()+"?check all");
+				
+				if(cbAll.isChecked()==true){
+					Log.d("check","All");
+					cursor = colorBase.rawQuery(
+							"SELECT * FROM colors WHERE moment >= ? AND moment <= ?", 
+							new String[]{dateCode1+"",dateCode2+""});
+				}else {//如果取消勾选全部颜色，检查每个spinner的checkbox是否勾选，形成查询条件
+					
+					int color1=1000,color2=1000,color3=1000;
+					//checkbox勾选且可见
+					if(cb1.isChecked()==true&&cb1.getVisibility()==View.VISIBLE){//如果勾选，获取所选颜色，转换成对应于根颜色表内的序号
+						
+						color1 = com.nightmare.recent.ColorSpinner.
+									colorRange.indexOf(cs1.selectedColor());
+						Log.d("check","color1c="+cs1.selectedColor());
+					}
+					//ics可见
+					if(ics1.getVisibility()==View.VISIBLE&&
+							((ColorDrawable)ics1.getBackground()) .getColor()!=c){//如果勾选，获取所选颜色，转换成对应于根颜色表内的序号
+						
+						color1 = com.nightmare.recent.ColorSpinner.
+									colorRange.indexOf(cs1.selectedColor());
+										//colorRange.indexOf( ((ColorDrawable)ics1.getBackground()) .getColor() );
+						
+						Log.d("check","color1i="+((ColorDrawable)ics1.getBackground()) .getColor());
+					}
+						//ColorDrawable colorDrawable= (ColorDrawable) ics1.getBackground();//获取背景颜色
+						//final int c = colorDrawable.getColor();
+						
+						
+					
+					if(cb2.isChecked()==true&&cb2.getVisibility()==View.VISIBLE){//如果勾选，获取所选颜色，转换成对应于根颜色表内的序号
+						Log.d("check","color2");
+						color2 = com.nightmare.recent.ColorSpinner.
+									colorRange.indexOf(cs2.selectedColor());
+					}
+					//ics可见
+					if(ics2.getVisibility()==View.VISIBLE&&
+							((ColorDrawable)ics2.getBackground()) .getColor()!=c){//如果勾选，获取所选颜色，转换成对应于根颜色表内的序号
+						Log.d("check","color2");
+						color2 = com.nightmare.recent.ColorSpinner.
+								colorRange.indexOf(cs2.selectedColor());
+										//colorRange.indexOf( ((ColorDrawable)ics2.getBackground()) .getColor() );
+					}
+					
+					if(cb3.isChecked()==true&&cb3.getVisibility()==View.VISIBLE){//如果勾选，获取所选颜色，转换成对应于根颜色表内的序号
+						Log.d("check","color3");
+						color3 = com.nightmare.recent.ColorSpinner.
+									colorRange.indexOf(cs3.selectedColor());
+					}
+					//ics可见
+					if(ics3.getVisibility()==View.VISIBLE&&
+							((ColorDrawable)ics3.getBackground()) .getColor()!=c){//如果勾选，获取所选颜色，转换成对应于根颜色表内的序号
+						Log.d("check","color3");
+						color3 = com.nightmare.recent.ColorSpinner.
+								colorRange.indexOf(cs3.selectedColor());
+										//colorRange.indexOf( ((ColorDrawable)ics3.getBackground()) .getColor() );
+					}
+					
+					
+					cursor = colorBase.rawQuery(
+							"SELECT * FROM colors WHERE moment >= ? AND moment <= ? AND (colorId = ? OR colorId = ? OR colorId = ?)", 
+							new String[]{dateCode1+"",dateCode2+"",color1+"",color2+"",color3+""});
+				}
+				//复制查询数据
+				
+				ArrayList<Point> result = new ArrayList<Point> ();
+				
+				if (cursor.moveToFirst()) {
+					do {//  遍历Cursor对象，取出数据
+						long moment = cursor.getInt(cursor.getColumnIndex("moment"));			
+						int colorId = cursor.getInt(cursor.getColumnIndex("colorId"));
+						String description = cursor.getString(cursor.getColumnIndex("description"));
+						//把数据写入当日list
+						result.add(new Point(moment,colorId,description));
+						//SimpleDateFormat dateformatMin = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+						//String dateString = dateformatMin.format(((Point)point.getTag()).moment*1000);
+						//new SimpleDateFormat("yyyy-MM-dd hh:mm").format(result.get(result.size()-1).moment*1000);
+						Log.d("check", 
+								"add " + (new SimpleDateFormat("yyyy-MM-dd hh:mm")).format(result.get(result.size()-1).moment*1000));
+					} while (cursor.moveToNext());
+				}
+				//关闭cursor
+				cursor.close();
+				
+				Log.d("check",result.size()+"select");
+				
+				if(result.size()==0){
+									
+					Toast.makeText(Check.this, "未检索到指定数据，请更改查询条件。",
+							Toast.LENGTH_LONG).show();	
+					return;
+									
+				}
+				
+				
+				//填充
+				
+				TimeRange tR = new TimeRange();
+				
+				
+				for(int i= 0;i<result.size();){
+					//Log.d("check","for");
+					//如果此数据点不在第一天范围内，生成空子list，插入list，把第一天的下一天赋值给第一天，数据点不移动,
+					ArrayList<Point> l = new ArrayList<Point>();
+					
+					while(result.get(i).moment > com.nightmare.recent.MainActivity.findRange(dateCode1).end){
+						
+						//Log.d("check","while > ");
+						LinearLayout day = new LinearLayout(Check.this);
+						LinearLayout.LayoutParams dayLP = new LinearLayout.LayoutParams(  
+					            ViewGroup.LayoutParams.MATCH_PARENT,  
+					            40);  
+						day.setLayoutParams(dayLP);
+						day.setOrientation(LinearLayout.HORIZONTAL);
+						
+						//ArrayList<Point> l = new ArrayList<Point>();
+						fillWithColor(l, day);
+						//Log.d("check","fill");
+						scroll.addView(day);
+						//Log.d("check","add");
+						
+						tR.start = com.nightmare.recent.MainActivity.findRange(dateCode1).start;
+						tR.end = com.nightmare.recent.MainActivity.findRange(dateCode1).end;
+						dateCode1 = TimeRange.nextDay(tR).start;
+						
+					}
+					//如果此数据点的时刻值在第一天范围内，把此点加入list，直到加入当天所有数据点，日期后推一天
+					while(i<result.size()&&
+							(result.get(i).moment > com.nightmare.recent.MainActivity.findRange(dateCode1).start)&&
+							(result.get(i).moment < com.nightmare.recent.MainActivity.findRange(dateCode1).end)){
+						//Log.d("check","while ");
+						//ArrayList<Point> l = new ArrayList<Point>();
+						l.add(result.get(i));
+						i++;
+					}
+					//Log.d("check","out while");
+					//把list填入scrollview
+					LinearLayout day = new LinearLayout(Check.this);
+					LinearLayout.LayoutParams dayLP = new LinearLayout.LayoutParams(  
+				            ViewGroup.LayoutParams.MATCH_PARENT,  
+				            40);  
+					day.setLayoutParams(dayLP);
+					day.setOrientation(LinearLayout.HORIZONTAL);
+					
+					fillWithColor(l, day);
+					scroll.addView(day);
+					
+					tR.start = com.nightmare.recent.MainActivity.findRange(dateCode1).start;
+					tR.end = com.nightmare.recent.MainActivity.findRange(dateCode1).end;
+					dateCode1 = TimeRange.nextDay(tR).start;
+				}
+				while(com.nightmare.recent.MainActivity.findRange(dateCode1).end<=
+						com.nightmare.recent.MainActivity.findRange(dateCode2).end){
+					
+					ArrayList<Point> l = new ArrayList<Point>();
+						
+					LinearLayout day = new LinearLayout(Check.this);
+					LinearLayout.LayoutParams dayLP = new LinearLayout.LayoutParams(  
+					           ViewGroup.LayoutParams.MATCH_PARENT,40);  
+					day.setLayoutParams(dayLP);
+					day.setOrientation(LinearLayout.HORIZONTAL);
+						
+						//ArrayList<Point> l = new ArrayList<Point>();
+					fillWithColor(l, day);
+					
+					scroll.addView(day);
+						
+				
+					tR.start = com.nightmare.recent.MainActivity.findRange(dateCode1).start;
+					tR.end = com.nightmare.recent.MainActivity.findRange(dateCode1).end;
+					dateCode1 = TimeRange.nextDay(tR).start;
+						
+					
+				}
+				
+				
+					
+				}
+			});
 		
 		
 	}
@@ -418,5 +670,87 @@ public class Check extends Activity implements OnDateChangedListener {
 	
 	}
 	
+	
+	
+public void fillWithColor(ArrayList<Point> list, LinearLayout layout){
 		
+		Log.d("recent","start fill");
+		TextView tail = new TextView(this);
+		if(list.size()!=0){//如果list不为空
+			//查找list代表的日期的秒数范围
+			TimeRange tr= com.nightmare.recent.MainActivity.findRange(list.get(0).moment);
+			//新建色块，插入main	
+			for(int i=0;i<list.size();i++){
+				Log.d("recent","to fill "+i);
+				//新建textview
+				final TextView point = new TextView(this);
+				//设置边界
+				point.setText("|");
+				point.setGravity(Gravity.RIGHT|Gravity.CENTER_VERTICAL);
+				//设置tag		
+				point.setTag(list.get(i));//attach Point as tag
+				//设置颜色
+				Log.d("recent","find color"+list.get(i).colorId+":"+list.get(i).moment);
+				String s=com.nightmare.recent.ColorSpinner.colorRange.get(
+						list.get(i).colorId);
+				Log.d("recent","color code:"+ s);
+				point.setBackgroundColor(Color.parseColor(s));//Color.parseColor("#00FF00")
+				//设置weight
+				int weight;
+				//对于第一个色块
+				if(i==0){
+					weight= (int) (list.get(i).moment-tr.start);
+				}else{//对于后面的色块
+					weight=(int)(list.get(i).moment-list.get(i-1).moment);
+				}
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams( //格式
+			            0, LayoutParams.MATCH_PARENT,weight); 
+				point.setLayoutParams(lp);
+				
+				//add click activity
+				point.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						SimpleDateFormat dateformatMin = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+						//String dateString = dateformatMin.format(((Point)point.getTag()).moment*1000);
+						//Toast.makeText(MainActivity.this, 
+						//		"\n"+ dateString+":\n"+((Point)point.getTag()).description,
+						//		Toast.LENGTH_SHORT).show();
+						Intent intent = new Intent(Check.this, EditPoint.class);
+						intent.putExtra("extra_data",  ((Point)point.getTag()).moment+"");
+						startActivity(intent);
+					}
+				});
+				//插入main
+				layout.addView(point);
+				Log.d("recent","fill "+ i);
+			}
+			Log.d("recent","for tail");
+			//设置结尾textview
+			int tWeight=(int)(tr.end - list.get(list.size()-1).moment);
+			tail.setLayoutParams(new LinearLayout.LayoutParams( //格式
+			            0, LayoutParams.MATCH_PARENT,tWeight));
+		}else{//list为空
+			tail.setLayoutParams(new LinearLayout.LayoutParams( //格式
+					0, LayoutParams.MATCH_PARENT,1));
+		}
+		//设置结尾颜色
+		tail.setBackgroundColor(Color.parseColor("#f6f6f6"));
+		//设置结尾文字 以标明空行
+		tail.setText(".");
+		tail.setGravity(Gravity.CENTER_VERTICAL);
+		//设置结尾点击事件
+		tail.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(
+						Check.this, "empty",Toast.LENGTH_SHORT).show();
+			}
+		});
+		//添加结尾
+		layout.addView(tail);
+		Log.d("recent","done fill");
+	}
+	
+	
 }

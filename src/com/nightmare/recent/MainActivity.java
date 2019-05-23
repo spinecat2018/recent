@@ -81,7 +81,7 @@ public class MainActivity extends Activity {
 		//find days_area
 		//计算前一天秒范围
 		TimeRange todayRange = new TimeRange(todayHead,todayEnd);
-		TimeRange yesterdayRange = todayRange.yesterday(todayRange);
+		TimeRange yesterdayRange = TimeRange.yesterday(todayRange);
 		//yesterdayRange.start=todayHead;
 		//yesterdayRange.end=todayEnd;
 		for(int i=0;i<27;i++){
@@ -96,7 +96,7 @@ public class MainActivity extends Activity {
 			day.setOrientation(LinearLayout.HORIZONTAL);
 			fillWithColor(yesterday, day);
 			daysArea.addView(day);
-			yesterdayRange = yesterdayRange.yesterday(yesterdayRange);	
+			yesterdayRange = TimeRange.yesterday(yesterdayRange);	
 		}
 //定义按钮活动
 		Button button1 = (Button) findViewById(R.id.new_record);
@@ -109,11 +109,23 @@ public class MainActivity extends Activity {
 			}
 		});
 		
+		
+		Button button2 = (Button) findViewById(R.id.check);
+		button2.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+			//点击进入check活动
+				Intent intent = new Intent(MainActivity.this, Check.class);
+				startActivity(intent);
+			}
+		});
+		
+		
 	}
 	
 	
 	
-//根据两个10位秒码查找指定数据库，选取结果存入list
+//根据两个10位秒码 查找指定数据库，选取结果存入list
 	public static ArrayList<Point> select(SQLiteDatabase db,long start,long end){
 		ArrayList<Point> result = new ArrayList<Point> ();
 		long min=start;
@@ -172,7 +184,7 @@ public class MainActivity extends Activity {
 				point.setTag(list.get(i));//attach Point as tag
 				//设置颜色
 				Log.d("recent","find color"+list.get(i).colorId+":"+list.get(i).moment);
-				String s=com.nightmare.recent.EditAndAdd.colorRange.get(
+				String s=com.nightmare.recent.ColorSpinner.colorRange.get(
 						list.get(i).colorId);
 				Log.d("recent","color code:"+ s);
 				point.setBackgroundColor(Color.parseColor(s));//Color.parseColor("#00FF00")
@@ -234,7 +246,7 @@ public class MainActivity extends Activity {
 	}
 	
 	
-//get the day's range from timecode(10-bit)
+//get the day's range from timecode(10-bit) 由时间码，计算当日的毫秒范围
 	public static TimeRange findRange(long timeCode){
 		//Log.d("recent","find");
 		TimeRange tr = new TimeRange();

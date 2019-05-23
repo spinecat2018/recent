@@ -60,10 +60,11 @@
 				android:text="颜色:" 
 				android:textSize="18sp"/>
 	
-		<Spinner
-		    android:id="@+id/spinner1"
+		<com.nightmare.recent.ColorSpinner
+		    android:id="@+id/color_spinner"
 		    android:layout_width="100sp"
-		    android:layout_height="wrap_content"/>
+		    android:layout_height="wrap_content"
+		    ></com.nightmare.recent.ColorSpinner>
 		
 	
     

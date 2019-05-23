@@ -28,7 +28,7 @@ public class EditPoint extends Activity {
 	private ColorBase colorBaseHelper;
 	
 	int selectColorId;
-	Spinner spinner;
+	com.nightmare.recent.ColorSpinner spinner;
 	String selectDescription;
 	EditText editText;
 	SQLiteDatabase colorBase;
@@ -77,8 +77,8 @@ public class EditPoint extends Activity {
 		
 		
 		//初始化颜色和备注的值
-		spinner = (Spinner)findViewById(R.id.spinner1);
-		spinner.setSelection(selectColorId,true);
+		spinner = (com.nightmare.recent.ColorSpinner)findViewById(R.id.color_spinner);
+		spinner.spinner.setSelection(selectColorId,true);
 		
 		editText = (EditText)findViewById(R.id.edit_text1);
 		editText.setText(selectDescription);
@@ -92,7 +92,7 @@ public class EditPoint extends Activity {
 			public void onClick(View v) {
 		
 				//获取当前值
-				selectColorId = spinner.getSelectedItemPosition();
+				selectColorId = com.nightmare.recent.ColorSpinner.colorRange.indexOf(spinner.selectedColor());//getSelectedItemPosition();
 				selectDescription = editText.getText().toString();
 				//组装数据，写入数据库
 				ContentValues values = new ContentValues();
@@ -169,7 +169,7 @@ public class EditPoint extends Activity {
 					pageName.setText("修改记录："+ showTime);
 					
 					selectColorId = list.get(index-1).colorId;
-					spinner.setSelection(selectColorId,true);
+					spinner.spinner.setSelection(selectColorId,true);
 					
 					selectDescription = list.get(index-1).description;
 					editText.setText(selectDescription );
@@ -205,7 +205,7 @@ public class EditPoint extends Activity {
 							pageName.setText("修改记录："+ showTime);
 							
 							selectColorId = list.get(index+1).colorId;
-							spinner.setSelection(selectColorId,true);
+							spinner.spinner.setSelection(selectColorId,true);
 							
 							selectDescription = list.get(index+1).description;
 							editText.setText(selectDescription );

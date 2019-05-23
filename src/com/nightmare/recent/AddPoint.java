@@ -32,6 +32,8 @@ public class AddPoint extends Activity {
 	private ColorBase colorBaseHelper;
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
+	com.nightmare.recent.ColorSpinner colorSpinner;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d("recent","create");	
@@ -50,7 +52,9 @@ public class AddPoint extends Activity {
 		
 		
 		//final ColorAdapter adapter = new ColorAdapter(this,R.layout.color, com.nightmare.recent.EditAndAdd.colorList);
-		Spinner spinner = (Spinner) findViewById(R.id.spinner1);
+		
+		
+		colorSpinner = (com.nightmare.recent.ColorSpinner) findViewById(R.id.color_spinner);
 		//spinner.setAdapter(adapter);
 		//添加spinner事件
 		/*spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -77,7 +81,7 @@ public class AddPoint extends Activity {
 			//点击按钮，添加数据	
 				Log.d("recent","click save");
 				//获取颜色编码在数组中的序号
-				int colorId	= com.nightmare.recent.EditAndAdd.colorRange.indexOf(com.nightmare.recent.EditAndAdd.selectColorCode);
+				int colorId	= com.nightmare.recent.ColorSpinner.colorRange.indexOf(colorSpinner.selectedColor());
 				//保存备注
 				EditText detail = (EditText) findViewById(R.id.edit_text1);
 				description = detail.getText().toString();

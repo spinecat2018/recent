@@ -26,7 +26,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 public class EditAndAdd extends LinearLayout {
 	
-	static List<String> colorRange = Arrays.asList(
+/*	static List<String> colorRange = Arrays.asList(
 			"#aa353b",
 			"#d7711d",
 			"#dca93d",
@@ -35,17 +35,19 @@ public class EditAndAdd extends LinearLayout {
 			"#206096",
 			"#8a256f",
 			"#90634b",
-			"#e0bebf");
+			"#e0bebf");     */
 	
 	//新建颜色块list，用于adapter	
 	//List<ColorBlock> colorList = new ArrayList<ColorBlock>();
 	
-	List<ColorBlock> colorList;
+//	List<ColorBlock> colorList;
 	
 	//initColors(colorRange);
 	
 	//用于存储spinner选取的颜色号
-	static String selectColorCode;
+	String selectColorCode;
+	
+	com.nightmare.recent.ColorSpinner colorSpinner;
 	//public static String colorTableCode;
 	//ColorBase colorBaseHelper;
 	//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -57,14 +59,18 @@ public class EditAndAdd extends LinearLayout {
 		LayoutInflater.from(context).inflate(R.layout.edit_and_add, this);
 		
 		
-		initColors(colorRange);
+		
+		
+//		initColors(colorRange);
 		
 		//自定义spinner元素布局
-		final ColorAdapter adapter = new ColorAdapter(((Activity) getContext()),R.layout.color, colorList);
-		Spinner spinner = (Spinner) findViewById(R.id.spinner1);
-		spinner.setAdapter(adapter);
+//		final ColorAdapter adapter = new ColorAdapter(((Activity) getContext()),R.layout.color, colorList);
+		colorSpinner = (com.nightmare.recent.ColorSpinner) findViewById(R.id.color_spinner);
+		selectColorCode = colorSpinner.selectedColor();
+		
+//		spinner.setAdapter(adapter);
 		//添加spinner事件
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+/*		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 		     public void onItemSelected(AdapterView<?> parent, View view,int position, long id) {
 				ColorBlock selectColor = adapter.getItem(position);
@@ -76,7 +82,7 @@ public class EditAndAdd extends LinearLayout {
 		     public void onNothingSelected(AdapterView<?> parent) {
 		         // TODO Auto-generated method stub    
 		     }
-		});
+		});    */
 
 //返回按钮		
 		Button back = (Button) findViewById(R.id.button_back);
@@ -91,12 +97,19 @@ public class EditAndAdd extends LinearLayout {
 	
 	
 //初始化颜色列表	
-	void initColors(List<String> list) {
+/*	void initColors(List<String> list) {
 		colorList = new ArrayList<ColorBlock>();
 		for(int i=0;i<list.size();i++){
 			ColorBlock color = new ColorBlock(list.get(i));
 			colorList.add(color);
 		}
+	}   */
+	
+	
+String selectedColor(){
+		
+		return colorSpinner.selectedColor();
+	
 	}
 	
 }

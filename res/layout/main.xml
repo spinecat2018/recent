@@ -59,7 +59,7 @@
         android:layout_centerVertical="true"
         android:text="更多.."
         android:textColor="#444444"
-        android:textSize="14sp"
+        android:textSize="12sp"
         
         android:gravity="center"
         
