@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
@@ -556,18 +557,23 @@ public class Check extends Activity implements OnDateChangedListener {
 					while(result.get(i).moment > com.nightmare.recent.MainActivity.findRange(dateCode1).end){
 						
 						//Log.d("check","while > ");
-						LinearLayout day = new LinearLayout(Check.this);
-						LinearLayout.LayoutParams dayLP = new LinearLayout.LayoutParams(  
-					            ViewGroup.LayoutParams.MATCH_PARENT,  
-					            40);  
-						day.setLayoutParams(dayLP);
-						day.setOrientation(LinearLayout.HORIZONTAL);
 						
-						//ArrayList<Point> l = new ArrayList<Point>();
-						fillWithColor(l, day);
-						//Log.d("check","fill");
-						scroll.addView(day);
-						//Log.d("check","add");
+						if(i!=0){
+							LinearLayout day = new LinearLayout(Check.this);
+							LinearLayout.LayoutParams dayLP = new LinearLayout.LayoutParams(  
+						            ViewGroup.LayoutParams.MATCH_PARENT,  
+						            40);  
+							day.setLayoutParams(dayLP);
+							day.setOrientation(LinearLayout.HORIZONTAL);
+							
+							//ArrayList<Point> l = new ArrayList<Point>();
+							fillWithColor(l, day);
+							//Log.d("check","fill");
+							scroll.addView(day);
+							//Log.d("check","add");
+							
+						}
+						
 						
 						tR.start = com.nightmare.recent.MainActivity.findRange(dateCode1).start;
 						tR.end = com.nightmare.recent.MainActivity.findRange(dateCode1).end;
@@ -599,7 +605,9 @@ public class Check extends Activity implements OnDateChangedListener {
 					tR.end = com.nightmare.recent.MainActivity.findRange(dateCode1).end;
 					dateCode1 = TimeRange.nextDay(tR).start;
 				}
-				while(com.nightmare.recent.MainActivity.findRange(dateCode1).end<=
+				
+				//插入数据点后的空白天
+				/*while(com.nightmare.recent.MainActivity.findRange(dateCode1).end<=
 						com.nightmare.recent.MainActivity.findRange(dateCode2).end){
 					
 					ArrayList<Point> l = new ArrayList<Point>();
@@ -621,7 +629,7 @@ public class Check extends Activity implements OnDateChangedListener {
 					dateCode1 = TimeRange.nextDay(tR).start;
 						
 					
-				}
+				}  */
 				
 				
 					
@@ -680,6 +688,14 @@ public void fillWithColor(ArrayList<Point> list, LinearLayout layout){
 			//查找list代表的日期的秒数范围
 			TimeRange tr= com.nightmare.recent.MainActivity.findRange(list.get(0).moment);
 			//新建色块，插入main	
+			TextView day = new TextView(this);
+						
+			SimpleDateFormat sdr1 = new SimpleDateFormat("MM/dd");
+			day.setText(sdr1.format(new Date(list.get(0).moment*1000)));
+			
+			layout.addView(day);
+			
+			
 			for(int i=0;i<list.size();i++){
 				Log.d("recent","to fill "+i);
 				//新建textview
